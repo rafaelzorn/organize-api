@@ -15,7 +15,7 @@ echo ""
 docker-compose up -d
 
 echo ""
-echo "=================================================> 33.3%"
+echo "=================================================> 25%"
 echo ""
 
 echo ""
@@ -25,7 +25,7 @@ echo ""
 docker exec organize-api composer install
 
 echo ""
-echo "=================================================> 66.6%"
+echo "=================================================> 25%"
 echo ""
 
 echo ""
@@ -33,6 +33,16 @@ echo "3) Executando migrations"
 echo ""
 
 docker exec organize-api php artisan migrate
+
+echo ""
+echo "=================================================> 25%"
+echo ""
+
+echo ""
+echo "4) Executando seeders"
+echo ""
+
+docker exec organize-api php artisan db:seed
 
 echo ""
 echo "=================================================> 100%"

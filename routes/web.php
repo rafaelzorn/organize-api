@@ -12,5 +12,5 @@
 */
 
 $router->get('/', function () use ($router) {
-    return env('APP_NAME');
+    return config('app.name');
 });

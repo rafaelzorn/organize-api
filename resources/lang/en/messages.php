@@ -2,5 +2,5 @@
 
 return [
     'unauthorized'            => 'Unauthorized',
-    'successfully_logged_out' => 'Successfully logged out'
+    'successfully_logged_out' => 'Successfully logged out',
 ];

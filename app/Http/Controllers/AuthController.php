@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Constants\HttpStatusConstant;
 
 class AuthController extends Controller
@@ -24,6 +25,8 @@ class AuthController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
+        $this->validate($request, LoginRequest::rules());
+
         $credentials = $request->only(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {

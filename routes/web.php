@@ -14,3 +14,16 @@
 $router->get('/', function () use ($router) {
     return config('app.name');
 });
+
+$router->group(['prefix' => 'api/v1/'], function () use ($router) {
+    $router->post('login', 'AuthController@login');
+});
+
+$router->group([
+    'prefix'     => 'api/v1/',
+    'middleware' => 'auth'
+], function () use ($router) {
+    $router->get('me', 'AuthController@me');
+    $router->get('refresh', 'AuthController@refresh');
+    $router->get('logout', 'AuthController@logout');
+});

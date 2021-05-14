@@ -15,7 +15,7 @@ echo ""
 docker-compose up -d
 
 echo ""
-echo "=================================================> 25%"
+echo "=================================================> 20%"
 echo ""
 
 echo ""
@@ -25,7 +25,7 @@ echo ""
 docker exec organize-api composer install
 
 echo ""
-echo "=================================================> 25%"
+echo "=================================================> 40%"
 echo ""
 
 echo ""
@@ -35,7 +35,7 @@ echo ""
 docker exec organize-api php artisan migrate
 
 echo ""
-echo "=================================================> 25%"
+echo "=================================================> 60%"
 echo ""
 
 echo ""
@@ -43,6 +43,16 @@ echo "4) Executando seeders"
 echo ""
 
 docker exec organize-api php artisan db:seed
+
+echo ""
+echo "=================================================> 80%"
+echo ""
+
+echo ""
+echo "5) Gerando chave secreta JWT"
+echo ""
+
+docker exec organize-api php artisan jwt:secret
 
 echo ""
 echo "=================================================> 100%"

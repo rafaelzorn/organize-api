@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Constants\HttpStatusConstant;
+use App\Organize\Auth\Requests\LoginRequest;
+use App\Organize\Auth\Services\AuthService;
 
 class AuthController extends Controller
 {
     /**
+     * @var $authService
+     */
+    private $authService;
+
+    /**
+     * @param AuthService $authService
+     *
      * @return void
      */
-    public function __construct()
+    public function __construct(AuthService $authService)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->authService = $authService;
     }
 
     /**
@@ -27,16 +34,9 @@ class AuthController extends Controller
     {
         $this->validate($request, LoginRequest::rules());
 
-        $credentials = $request->only(['email', 'password']);
+        $user = $this->authService->login($request->only(['email', 'password']));
 
-        if (!$token = auth()->attempt($credentials)) {
-            return $this->responseAdapter(
-                message: trans('messages.unauthorized'),
-                code: HttpStatusConstant::UNAUTHORIZED
-            );
-        }
-
-        return $this->respondWithToken($token);
+        return $this->responseAdapter(data: $user);
     }
 
     /**
@@ -44,7 +44,9 @@ class AuthController extends Controller
      */
     public function me(): JsonResponse
     {
-        return $this->responseAdapter(data: auth()->user());
+        $me = $this->authService->me();
+
+        return $this->responseAdapter(data: $me);
     }
 
     /**
@@ -52,7 +54,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        auth()->logout();
+        $this->authService->logout();
 
         return $this->responseAdapter(trans('messages.successfully_logged_out'));
     }
@@ -62,22 +64,8 @@ class AuthController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        return $this->respondWithToken(auth()->refresh());
-    }
+        $token = $this->authService->refresh();
 
-    /**
-     * @param string $token
-     *
-     * @return JsonResponse
-     */
-    protected function respondWithToken(string $token): JsonResponse
-    {
-        $data = [
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
-        ];
-
-        return $this->responseAdapter(data: $data);
+        return $this->responseAdapter(data: $token);
     }
 }

@@ -34,9 +34,9 @@ class AuthController extends Controller
     {
         $this->validate($request, LoginRequest::rules());
 
-        $user = $this->authService->login($request->only(['email', 'password']));
+        $login = $this->authService->login($request->only(['email', 'password']));
 
-        return $this->responseAdapter(data: $user);
+        return $this->responseAdapter($login);
     }
 
     /**
@@ -46,7 +46,7 @@ class AuthController extends Controller
     {
         $me = $this->authService->me();
 
-        return $this->responseAdapter(data: $me);
+        return $this->responseAdapter($me);
     }
 
     /**
@@ -54,9 +54,9 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        $this->authService->logout();
+        $logout = $this->authService->logout();
 
-        return $this->responseAdapter(trans('messages.successfully_logged_out'));
+        return $this->responseAdapter($logout);
     }
 
     /**
@@ -66,6 +66,6 @@ class AuthController extends Controller
     {
         $token = $this->authService->refresh();
 
-        return $this->responseAdapter(data: $token);
+        return $this->responseAdapter($token);
     }
 }

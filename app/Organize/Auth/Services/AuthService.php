@@ -15,41 +15,67 @@ class AuthService
     public function login(array $credentials): array
     {
         if (!$token = auth()->attempt($credentials)) {
-            return [
+            $data = [
                 'message' => trans('messages.unauthorized'),
-                'code'    => HttpStatusConstant::UNAUTHORIZED
+                'code'    => HttpStatusConstant::UNAUTHORIZED,
             ];
+
+            return $data;
         }
 
-        $data = $this->respondWithToken($token);
+        $data =  [
+            'code' => HttpStatusConstant::OK,
+            'data' => [
+                'me' => $this->respondWithToken($token),
+            ],
+        ];
 
         return $data;
     }
 
     /**
-     * @return User
+     * @return array $data
      */
-    public function me(): User
+    public function me(): array
     {
-        return auth()->user();
+        $data = [
+            'code' => HttpStatusConstant::OK,
+            'data' => [
+                'me' => auth()->user(),
+            ],
+        ];
+
+        return $data;
     }
 
     /**
-     * @return void
+     * @return array $data
      */
-    public function logout(): void
+    public function logout(): array
     {
         auth()->logout();
+
+        $data = [
+            'code'    => HttpStatusConstant::OK,
+            'message' => trans('messages.successfully_logged_out'),
+        ];
+
+        return $data;
     }
 
     /**
-     * @return string $token
+     * @return string $data
      */
-    public function refresh(): string
+    public function refresh(): array
     {
-        $token = auth()->refresh();
+        $data = [
+            'code' => HttpStatusConstant::OK,
+            'data' => [
+                'token' => auth()->refresh(),
+            ],
+        ];
 
-        return $token;
+        return $data;
     }
 
     /**

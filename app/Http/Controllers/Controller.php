@@ -10,27 +10,23 @@ use App\Constants\HttpStatusConstant;
 class Controller extends BaseController
 {
     /**
-     * @param string $message
      * @param mixed $data
-     * @param int $code
      *
      * @return JsonResponse
      */
-    public function responseAdapter(
-        string $message = '',
-        mixed $data     = false,
-        int $code       = HttpStatusConstant::OK): JsonResponse
+    public function responseAdapter($data)
     {
-        $response['code'] = $code;
+        $response         = [];
+        $response['code'] = $data['code'];
 
-        if (Str::of($message)->isNotEmpty()) {
-            $response['message'] = $message;
+        if (isset($data['message'])) {
+            $response['message'] = $data['message'];
         }
 
-        if ($data) {
-            $response['data'] = $data;
+        if (isset($data['data'])) {
+            $response['data'] = $data['data'];
         }
 
-        return response()->json($response, $code);
+        return response()->json($response, $response['code']);
     }
 }

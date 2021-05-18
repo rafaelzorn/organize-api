@@ -3,9 +3,10 @@
 namespace App\Organize\Auth\Services;
 
 use App\Constants\HttpStatusConstant;
+use App\Organize\Auth\Services\Contracts\AuthServiceInterface;
 use App\Organize\User\Models\User;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
     /**
      * @param array $credentials

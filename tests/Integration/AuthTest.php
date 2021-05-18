@@ -3,8 +3,14 @@
 class AuthTest extends TestCase
 {
     /** @test */
-    public function test_is_empty()
+    public function should_authenticate_a_user_by_credentials()
     {
+        // Arrange
+
+        // Act
+
+        // Assert
+
         $empty = [];
 
         $this->assertEmpty($empty);

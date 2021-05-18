@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Organize\Auth\Services\Contracts\AuthServiceInterface;
 use App\Organize\Auth\Requests\LoginRequest;
-use App\Organize\Auth\Services\AuthService;
 
 class AuthController extends Controller
 {
@@ -16,11 +16,11 @@ class AuthController extends Controller
     private $authService;
 
     /**
-     * @param AuthService $authService
+     * @param AuthServiceInterface $authService
      *
      * @return void
      */
-    public function __construct(AuthService $authService)
+    public function __construct(AuthServiceInterface $authService)
     {
         $this->authService = $authService;
     }

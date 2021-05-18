@@ -11,87 +11,71 @@ class AuthService implements AuthServiceInterface
     /**
      * @param array $credentials
      *
-     * @return array $data
+     * @return array
      */
     public function login(array $credentials): array
     {
         if (!$token = auth()->attempt($credentials)) {
-            $data = [
+            return [
                 'message' => trans('messages.unauthorized'),
                 'code'    => HttpStatusConstant::UNAUTHORIZED,
             ];
-
-            return $data;
         }
 
-        $data =  [
+        return [
             'code' => HttpStatusConstant::OK,
-            'data' => [
-                'me' => $this->respondWithToken($token),
-            ],
+            'data' => $this->respondWithToken($token),
         ];
-
-        return $data;
     }
 
     /**
-     * @return array $data
+     * @return array
      */
     public function me(): array
     {
-        $data = [
+        return [
             'code' => HttpStatusConstant::OK,
-            'data' => [
-                'me' => auth()->user(),
-            ],
+            'data' => auth()->user(),
         ];
-
-        return $data;
     }
 
     /**
-     * @return array $data
+     * @return array
      */
     public function logout(): array
     {
         auth()->logout();
 
-        $data = [
+        return [
             'code'    => HttpStatusConstant::OK,
             'message' => trans('messages.successfully_logged_out'),
         ];
-
-        return $data;
     }
 
     /**
-     * @return string $data
+     * @return string array
      */
     public function refresh(): array
     {
-        $data = [
+        return [
             'code' => HttpStatusConstant::OK,
             'data' => [
                 'token' => auth()->refresh(),
             ],
         ];
-
-        return $data;
     }
 
     /**
      * @param string $token
      *
-     * @return array $data
+     * @return array
      */
     protected function respondWithToken(string $token): array
     {
-        $data = [
+        return [
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * 60,
         ];
-
-        return $data;
     }
 }

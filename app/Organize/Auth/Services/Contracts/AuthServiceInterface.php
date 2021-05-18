@@ -7,22 +7,22 @@ interface AuthServiceInterface
     /**
      * @param array $credentials
      *
-     * @return array $data
+     * @return array
      */
     public function login(array $credentials): array;
 
     /**
-     * @return array $data
+     * @return array
      */
     public function me(): array;
 
     /**
-     * @return array $data
+     * @return array
      */
     public function logout(): array;
 
     /**
-     * @return string $data
+     * @return string array
      */
     public function refresh(): array;
 }

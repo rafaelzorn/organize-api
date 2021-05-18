@@ -3,7 +3,6 @@
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use App\Organize\User\Models\User;
 use App\Constants\HttpStatusConstant;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthTest extends TestCase
 {

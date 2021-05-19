@@ -4,10 +4,25 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use App\Organize\User\Models\User;
+use App\Organize\User\Repositories\Contracts\UserRepositoryInterface;
 
 class UserSeeder extends Seeder
 {
+    /**
+     * @var $userRepository
+     */
+    private $userRepository;
+
+    /**
+     * @param UserRepositoryInterface $userRepository
+     *
+     * @return void
+     */
+    public function __construct(UserRepositoryInterface $userRepository)
+	{
+        $this->userRepository = $userRepository;
+	}
+
     /**
      * Run the database seeds.
      *
@@ -15,10 +30,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::find(1);
+        $user = $this->userRepository->find(1);
 
         if (empty($user)) {
-            User::create([
+            $this->userRepository->create([
                 'id'       => 1,
                 'name'     => 'Usuário Teste',
                 'email'    => 'usuario.teste@gmail.com.br',

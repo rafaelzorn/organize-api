@@ -16,9 +16,11 @@ class UserFactory extends Factory
     protected $model = User::class;
 
     /**
+     * @param string $password
+     *
      * @return Factory
      */
-    public function password($password): Factory
+    public function password(string $password): Factory
     {
         return $this->state(function (array $attributes) use($password) {
             return [

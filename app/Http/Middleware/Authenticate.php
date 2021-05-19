@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Constants\HttpStatusConstant;
 
 class Authenticate
 {
@@ -33,10 +34,10 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, mixed $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            return response(trans('messages.unauthorized'), HttpStatusConstant::UNAUTHORIZED);
         }
 
         return $next($request);

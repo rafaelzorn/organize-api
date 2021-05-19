@@ -8,7 +8,10 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {
-    public function register()
+    /**
+     * @return void
+     */
+    public function register(): void
     {
         $this->app->bind(AuthServiceInterface::class, AuthService::class);
     }

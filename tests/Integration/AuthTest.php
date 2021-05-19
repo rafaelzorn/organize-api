@@ -42,4 +42,28 @@ class AuthTest extends TestCase
             ],
         ]);
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_unauthorized_invalid_credentials(): void
+    {
+        // Arrange
+        $user = User::factory()->create();
+
+        // Act
+        $response = $this->json('POST', self::URL_LOGIN, [
+            'email'    => 'invalid@invalid.com.br',
+            'password' => 'invalid',
+        ]);
+
+        // Assert
+        $this->seeStatusCode(HttpStatusConstant::UNAUTHORIZED);
+        $this->seeJsonEquals([
+            'code'    => HttpStatusConstant::UNAUTHORIZED,
+            'message' => trans('messages.unauthorized'),
+        ]);
+    }
 }

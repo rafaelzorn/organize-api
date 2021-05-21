@@ -12,6 +12,7 @@ class AuthTest extends TestCase
     private const URL_ME      = '/api/v1/me';
     private const URL_LOGOUT  = '/api/v1/logout';
     private const URL_REFRESH = '/api/v1/refresh';
+
     private const TOKEN_TYPE  = 'bearer';
     private const EXPIRES_IN  = 3600;
 
@@ -136,9 +137,13 @@ class AuthTest extends TestCase
         $token            = $authenticateUser['token'];
 
         // Act
-        $this->json('GET', self::URL_REFRESH, [], ['Authorization' => 'Bearer ' . $token]);
+        $response = $this->json('GET', self::URL_REFRESH, [], ['Authorization' => 'Bearer ' . $token]);
 
         // Assert
+        $refreshedToken = $response->response['data']['token'];
+
+        auth()->setToken($refreshedToken);
+
         $token = auth()->getToken()->get();
 
         $this->seeStatusCode(HttpStatusConstant::OK);

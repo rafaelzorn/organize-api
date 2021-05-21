@@ -72,7 +72,7 @@ echo ""
 echo "7) Rodando testes de integração"
 echo ""
 
-docker exec organize-api vendor/bin/phpunit tests/Integration/
+docker exec organize-api vendor/bin/phpunit tests/Integration/ --testdox
 
 echo ""
 echo "=================================================> 100%"

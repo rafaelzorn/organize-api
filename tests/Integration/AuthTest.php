@@ -57,10 +57,13 @@ class AuthTest extends TestCase
         // Arrange
         User::factory()->create();
 
+        $invalidEmail    = 'invalid@invalid.com.br';
+        $invalidPassword = 'invalid';
+
         // Act
         $this->json('POST', self::URL_LOGIN, [
-            'email'    => 'invalid@invalid.com.br',
-            'password' => 'invalid',
+            'email'    => $invalidEmail,
+            'password' => $invalidPassword,
         ]);
 
         // Assert
@@ -104,6 +107,29 @@ class AuthTest extends TestCase
      *
      * @return void
      */
+    public function should_not_return_a_user_authenticating_by_invalid_token(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        User::factory()->create();
+        $invalidToken = 'invalid.token';
+
+        // Act
+        $response = $this->call('GET', self::URL_ME, [], [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNAUTHORIZED, $response->status());
+        $this->assertEquals(trans('messages.unauthorized'), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function should_logout_a_authenticated_user(): void
     {
         $this->refreshApplication();
@@ -121,6 +147,29 @@ class AuthTest extends TestCase
             'code'    => HttpStatusConstant::OK,
             'message' => trans('messages.successfully_logged_out'),
         ]);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_not_logout_a_user_authenticating_by_invalid_token(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        User::factory()->create();
+        $invalidToken = 'invalid.token';
+
+        // Act
+        $response = $this->call('GET', self::URL_LOGOUT, [], [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNAUTHORIZED, $response->status());
+        $this->assertEquals(trans('messages.unauthorized'), $response->getContent());
     }
 
     /**
@@ -153,5 +202,28 @@ class AuthTest extends TestCase
                 'token' => $token,
             ]
         ]);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_not_refresh_token_by_invalid_token(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        User::factory()->create();
+        $invalidToken = 'invalid.token';
+
+        // Act
+        $response = $this->call('GET', self::URL_REFRESH, [], [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNAUTHORIZED, $response->status());
+        $this->assertEquals(trans('messages.unauthorized'), $response->getContent());
     }
 }

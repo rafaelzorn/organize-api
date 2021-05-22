@@ -15,7 +15,7 @@ echo ""
 docker-compose up -d
 
 echo ""
-echo "=================================================> 14%"
+echo "=================================================> 12%"
 echo ""
 
 echo ""
@@ -25,7 +25,7 @@ echo ""
 docker exec organize-api cp .env.example .env
 
 echo ""
-echo "=================================================> 28%"
+echo "=================================================> 24%"
 echo ""
 
 echo ""
@@ -35,7 +35,7 @@ echo ""
 docker exec organize-api composer install --ignore-platform-req=php
 
 echo ""
-echo "=================================================> 42%"
+echo "=================================================> 36%"
 echo ""
 
 echo ""
@@ -45,7 +45,7 @@ echo ""
 docker exec organize-api php artisan migrate
 
 echo ""
-echo "=================================================> 56%"
+echo "=================================================> 48%"
 echo ""
 
 echo ""
@@ -55,7 +55,7 @@ echo ""
 docker exec organize-api php artisan db:seed
 
 echo ""
-echo "=================================================> 70%"
+echo "=================================================> 60%"
 echo ""
 
 echo ""
@@ -65,7 +65,7 @@ echo ""
 docker exec organize-api php artisan jwt:secret
 
 echo ""
-echo "=================================================> 84%"
+echo "=================================================> 72%"
 echo ""
 
 echo ""
@@ -73,6 +73,16 @@ echo "7) Rodando testes de integração"
 echo ""
 
 docker exec organize-api vendor/bin/phpunit tests/Integration/ --testdox
+
+echo ""
+echo "=================================================> 84%"
+echo ""
+
+echo ""
+echo "8) Rodando testes de unidade"
+echo ""
+
+docker exec organize-api vendor/bin/phpunit tests/Unit/ --testdox
 
 echo ""
 echo "=================================================> 100%"

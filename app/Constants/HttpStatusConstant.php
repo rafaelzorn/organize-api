@@ -4,6 +4,7 @@ namespace App\Constants;
 
 class HttpStatusConstant
 {
-    const OK           = 200;
-    const UNAUTHORIZED = 401;
+    const OK                   = 200;
+    const UNAUTHORIZED         = 401;
+    const UNPROCESSABLE_ENTITY = 422;
 }

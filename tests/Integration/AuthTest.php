@@ -79,6 +79,56 @@ class AuthTest extends TestCase
      *
      * @return void
      */
+    public function should_return_email_and_password_is_required(): void
+    {
+        // Arrange
+        $validations = [
+            'email'    => 'validation.required',
+            'password' => 'validation.required',
+        ];
+
+        $validationMessages = json_encode($this->validationMessages($validations));
+
+        User::factory()->create();
+
+        // Act
+        $response = $this->call('POST', self::URL_LOGIN);
+
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($validationMessages, $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_email_invalid(): void
+    {
+        // Arrange
+        $password     = uniqid();
+        $user         = User::factory()->password($password)->create();
+        $invalidEmail = 'invalidinvalid.com.br';
+        $validations  = ['email' => 'validation.email'];
+
+        $validationMessages = json_encode($this->validationMessages($validations));
+
+        // Act
+        $response = $this->call('POST', self::URL_LOGIN, [
+            'email'    => $invalidEmail,
+            'password' => $password,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($validationMessages, $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function should_return_a_authenticated_user(): void
     {
         $this->refreshApplication();
@@ -117,7 +167,7 @@ class AuthTest extends TestCase
 
         // Act
         $response = $this->call('GET', self::URL_ME, [], [], [], [
-            'HTTP_Authorization' => 'Bearer ' . $invalidToken
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken,
         ]);
 
         // Assert
@@ -219,7 +269,7 @@ class AuthTest extends TestCase
 
         // Act
         $response = $this->call('GET', self::URL_REFRESH, [], [], [], [
-            'HTTP_Authorization' => 'Bearer ' . $invalidToken
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken,
         ]);
 
         // Assert

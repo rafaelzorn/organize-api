@@ -31,4 +31,22 @@ abstract class TestCase extends BaseTestCase
             'token' => $token
         ];
     }
+
+    /**
+     * @return array $messages
+     */
+    public function validationMessages(array $validations): array
+    {
+        $messages = [];
+
+        if (empty($validations)) {
+            return $messages;
+        }
+
+        foreach ($validations as $key => $validation) {
+            $messages[$key] = [str_replace(':attribute', $key, trans($validation))];
+        }
+
+        return $messages;
+    }
 }

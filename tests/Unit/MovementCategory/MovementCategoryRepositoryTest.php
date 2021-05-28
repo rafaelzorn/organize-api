@@ -14,7 +14,7 @@ class MovementCategoryRepositoryTest extends TestCase
      */
     private $movementCategory;
 
-     /**
+    /**
      * @return void
      */
     public function setUp(): void

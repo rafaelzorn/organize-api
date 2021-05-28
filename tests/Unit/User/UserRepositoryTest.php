@@ -15,7 +15,7 @@ class UserRepositoryTest extends TestCase
      */
     private $userRepository;
 
-     /**
+    /**
      * @return void
      */
     public function setUp(): void

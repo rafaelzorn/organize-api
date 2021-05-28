@@ -2,9 +2,9 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory;
 use App\Organize\User\Models\User;
 use App\Organize\User\Repositories\UserRepository;
-use Faker\Factory;
 
 class UserRepositoryTest extends TestCase
 {

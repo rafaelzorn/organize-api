@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use App\Organize\Auth\Services\AuthService;
 use App\Organize\Auth\Services\Contracts\AuthServiceInterface;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {

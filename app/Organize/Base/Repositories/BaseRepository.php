@@ -2,8 +2,8 @@
 
 namespace App\Organize\Base\Repositories;
 
-use App\Organize\Base\Repositories\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use App\Organize\Base\Repositories\Contracts\BaseRepositoryInterface;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {

@@ -16,6 +16,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/v1/'], function () use ($router) {
+    // Auth
     $router->post('login', 'AuthController@login');
 });
 
@@ -23,7 +24,11 @@ $router->group([
     'prefix'     => 'api/v1/',
     'middleware' => 'auth'
 ], function () use ($router) {
+    // Auth
     $router->get('me', 'AuthController@me');
     $router->get('refresh', 'AuthController@refresh');
     $router->get('logout', 'AuthController@logout');
+
+    // Movement
+    $router->post('movements', 'MovementController@store');
 });

@@ -29,6 +29,9 @@ $router->group([
     $router->get('refresh', 'AuthController@refresh');
     $router->get('logout', 'AuthController@logout');
 
+    // Movement Category
+    $router->get('movement/categories', 'MovementCategoryController@index');
+
     // Movement
     $router->post('movements', 'MovementController@store');
 });

@@ -15,6 +15,20 @@ class MovementCategoryFactory extends Factory
     protected $model = MovementCategory::class;
 
     /**
+     * @param string $name
+     *
+     * @return Factory
+     */
+    public function name(string $name): Factory
+    {
+        return $this->state(function (array $attributes) use($name) {
+            return [
+                'name' => $name,
+            ];
+        });
+    }
+
+    /**
      * Define the model's default state.
      *
      * @return array

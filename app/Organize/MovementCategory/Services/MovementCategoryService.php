@@ -26,9 +26,9 @@ class MovementCategoryService implements MovementCategoryServiceInterface
     /**
      * @return array
      */
-    public function index(): array
+    public function getAllMovementCategories(): array
     {
-        $data = $this->movementCategoryRepository->getAll();
+        $data = $this->movementCategoryRepository->getAllMovementCategories();
 
         return [
             'code' => HttpStatusConstant::OK,

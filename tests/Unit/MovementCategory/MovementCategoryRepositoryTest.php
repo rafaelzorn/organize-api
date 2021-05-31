@@ -10,9 +10,9 @@ class MovementCategoryRepositoryTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @var $movementCategory
+     * @var $movementCategoryRepository
      */
-    private $movementCategory;
+    private $movementCategoryRepository;
 
     /**
      * @return void
@@ -21,7 +21,7 @@ class MovementCategoryRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->movementCategory = new MovementCategoryRepository(new MovementCategory);
+        $this->movementCategoryRepository = new MovementCategoryRepository(new MovementCategory);
     }
 
     /**
@@ -38,7 +38,7 @@ class MovementCategoryRepositoryTest extends TestCase
         ];
 
         // Act
-        $movementCategory = $this->movementCategory->create($data);
+        $movementCategory = $this->movementCategoryRepository->create($data);
 
         // Assert
         $this->assertInstanceOf(MovementCategory::class, $movementCategory);
@@ -56,10 +56,35 @@ class MovementCategoryRepositoryTest extends TestCase
         $data = MovementCategory::factory()->create();
 
         // Act
-        $movementCategory = $this->movementCategory->find($data['id']);
+        $movementCategory = $this->movementCategoryRepository->find($data['id']);
 
         // Assert
         $this->assertInstanceOf(MovementCategory::class, $movementCategory);
         $this->assertEquals($data['name'], $movementCategory->name);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_ordered_movement_categories()
+    {
+        // Arrange
+        $data = [
+            2 => MovementCategory::factory()->name('Viagem')->create(),
+            0 => MovementCategory::factory()->name('Casa')->create(),
+            1 => MovementCategory::factory()->name('Outros')->create(),
+        ];
+
+        // Act
+        $movementCategories = $this->movementCategoryRepository->getAllMovementCategories();
+
+        // Assert
+        $this->assertCount(3, $movementCategories);
+
+        foreach ($movementCategories as $key => $movementCategory) {
+            $this->assertEquals($movementCategory['name'], $data[$key]['name']);
+        }
     }
 }

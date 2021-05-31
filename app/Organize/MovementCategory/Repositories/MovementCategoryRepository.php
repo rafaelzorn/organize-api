@@ -22,7 +22,7 @@ class MovementCategoryRepository extends BaseRepository implements MovementCateg
     /**
      * @return Collection
      */
-    public function getAll(): Collection
+    public function getAllMovementCategories(): Collection
     {
         return $this->model->orderByName()->get();
     }

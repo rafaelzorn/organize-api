@@ -10,5 +10,5 @@ interface MovementCategoryRepositoryInterface extends BaseRepositoryInterface
     /**
      * @return Collection
      */
-    public function getAll(): Collection;
+    public function getAllMovementCategories(): Collection;
 }

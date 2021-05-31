@@ -7,5 +7,5 @@ interface MovementCategoryServiceInterface
     /**
      * @return array
      */
-    public function index(): array;
+    public function getAllMovementCategories(): array;
 }

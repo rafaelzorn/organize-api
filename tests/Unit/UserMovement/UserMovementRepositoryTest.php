@@ -48,7 +48,7 @@ class UserMovementRepositoryTest extends TestCase
             'user_id'              => $user->id,
             'movement_category_id' => $movementCategory->id,
             'description'          => $faker->sentence,
-            'value'                => $faker->randomFloat(2, 1, ),
+            'value'                => $faker->randomFloat(2, 1, 99999999),
             'movement_date'        => $faker->date,
             'movement_type'        => self::MOVEMENT_TYPES[random_int(0, 1)],
         ];

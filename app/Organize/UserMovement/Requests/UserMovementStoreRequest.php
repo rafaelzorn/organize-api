@@ -12,8 +12,8 @@ class UserMovementStoreRequest
         return [
             'movement_category_id' => 'required|integer',
             'description'          => 'required',
-            // TODO: Validar Regex
-            'value'                => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            // TODO: Aplicar validação para somente valores com 2 casas decimais
+            'value'                => 'required|numeric|between:0.01,99999999.99',
             'movement_date'        => 'required|date_format:Y-m-d',
             'movement_type'        => 'required|string',
         ];
@@ -22,7 +22,7 @@ class UserMovementStoreRequest
     public static function messages(): array
     {
         return [
-            'value.regex' => 'Invalid value'
+            'value.between' => trans('validation.invalid_movement_value_between'),
         ];
     }
 }

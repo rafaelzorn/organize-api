@@ -39,4 +39,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->create($attributes);
     }
+
+    /**
+     * @param $id
+     *
+     * @return Model
+     */
+    public function findOrFail(int $id): ?Model
+    {
+        return $this->model->findOrFail($id);
+    }
 }

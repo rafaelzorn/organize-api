@@ -19,4 +19,11 @@ interface BaseRepositoryInterface
      * @return Model
      */
     public function create(array $attributes): Model;
+
+    /**
+     * @param int $id
+     *
+     * @return Model
+     */
+    public function findOrFail(int $id): ?Model;
 }

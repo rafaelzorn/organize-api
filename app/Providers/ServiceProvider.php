@@ -7,6 +7,8 @@ use App\Organize\Auth\Services\AuthService;
 use App\Organize\Auth\Services\Contracts\AuthServiceInterface;
 use App\Organize\MovementCategory\Services\MovementCategoryService;
 use App\Organize\MovementCategory\Services\Contracts\MovementCategoryServiceInterface;
+use App\Organize\UserMovement\Services\UserMovementService;
+use App\Organize\UserMovement\Services\Contracts\UserMovementServiceInterface;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -19,6 +21,10 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->bind(
             MovementCategoryServiceInterface::class,
             MovementCategoryService::class
+        );
+        $this->app->bind(
+            UserMovementServiceInterface::class,
+            UserMovementService::class
         );
     }
 }

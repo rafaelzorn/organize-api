@@ -9,7 +9,7 @@ class MovementCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private const URL_INDEX  = '/api/v1/movement/categories';
+    private const URL_INDEX  = '/api/v1/movements/categories';
 
     /**
      * @test

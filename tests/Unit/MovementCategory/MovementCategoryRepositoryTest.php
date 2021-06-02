@@ -87,4 +87,22 @@ class MovementCategoryRepositoryTest extends TestCase
             $this->assertEquals($movementCategory['name'], $data[$key]['name']);
         }
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_find_a_movement_category_using_findOrfail(): void
+    {
+        // Arrange
+        $data = MovementCategory::factory()->create();
+
+        // Act
+        $movementCategory = $this->movementCategoryRepository->findOrFail($data['id']);
+
+        // Assert
+        $this->assertInstanceOf(MovementCategory::class, $movementCategory);
+        $this->assertEquals($data['name'], $movementCategory->name);
+    }
 }

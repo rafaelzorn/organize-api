@@ -6,9 +6,25 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Organize\UserMovement\Requests\UserMovementStoreRequest;
+use App\Organize\UserMovement\Services\Contracts\UserMovementServiceInterface;
 
 class MovementController extends Controller
 {
+    /**
+     * @var $userMovementService
+     */
+    private $userMovementService;
+
+    /**
+     * @param UserMovementServiceInterface $userMovementService
+     *
+     * @return void
+     */
+    public function __construct(UserMovementServiceInterface $userMovementService)
+    {
+        $this->userMovementService = $userMovementService;
+    }
+
     /**
      * @param Request $request
      *
@@ -16,8 +32,14 @@ class MovementController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $this->validate($request, UserMovementStoreRequest::rules());
+        $this->validate(
+            $request,
+            UserMovementStoreRequest::rules(),
+            UserMovementStoreRequest::messages()
+        );
 
-        dd('STORE');
+        $request = $this->userMovementService->store($request->all());
+
+        return $this->responseAdapter($request);
     }
 }

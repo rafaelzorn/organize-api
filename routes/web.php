@@ -30,7 +30,7 @@ $router->group([
     $router->get('logout', 'AuthController@logout');
 
     // Movement Category
-    $router->get('movement/categories', 'MovementCategoryController@index');
+    $router->get('movements/categories', 'MovementCategoryController@index');
 
     // Movement
     $router->post('movements', 'MovementController@store');

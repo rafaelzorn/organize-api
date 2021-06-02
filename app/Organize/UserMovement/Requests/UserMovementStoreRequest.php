@@ -12,6 +12,7 @@ class UserMovementStoreRequest
         return [
             'movement_category_id' => 'required|integer',
             'description'          => 'required',
+            // TODO: Validar Regex
             'value'                => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'movement_date'        => 'required|date_format:Y-m-d',
             'movement_type'        => 'required|string',

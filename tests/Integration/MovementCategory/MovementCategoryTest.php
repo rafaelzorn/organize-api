@@ -16,7 +16,7 @@ class MovementCategoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_ordered_movement_categories()
+    public function should_return_ordered_movement_categories(): void
     {
         $this->refreshApplication();
 
@@ -41,5 +41,26 @@ class MovementCategoryTest extends TestCase
             'code' => HttpStatusConstant::OK,
             'data' => $sorted,
         ]);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_not_return_movement_categories_by_invalid_token(): void
+    {
+        // Arrange
+        MovementCategory::factory()->create();
+        $invalidToken = 'invalid.token';
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, [], [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNAUTHORIZED, $response->status());
+        $this->assertEquals(trans('messages.unauthorized'), $response->getContent());
     }
 }

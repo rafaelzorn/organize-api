@@ -56,7 +56,7 @@ class UserMovementService implements UserMovementServiceInterface
             ];
         } catch (Exception $e) {
             return [
-                'code'    => HttpStatusConstant::INTERNAL_SERVER_ERROR,
+                'code'    => HttpStatusConstant::BAD_REQUEST,
                 'message' => trans('messages.error_save_movement'),
             ];
         }

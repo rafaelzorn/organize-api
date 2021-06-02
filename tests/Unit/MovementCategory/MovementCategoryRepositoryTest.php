@@ -68,7 +68,7 @@ class MovementCategoryRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_ordered_movement_categories()
+    public function should_return_ordered_movement_categories(): void
     {
         // Arrange
         $data = [

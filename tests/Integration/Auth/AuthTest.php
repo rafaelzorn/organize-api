@@ -26,12 +26,13 @@ class AuthTest extends TestCase
         // Arrange
         $password = uniqid();
         $user     = User::factory()->password($password)->create();
-
-        // Act
-        $this->json('POST', self::URL_LOGIN, [
+        $data     = [
             'email'    => $user->email,
             'password' => $password,
-        ]);
+        ];
+
+        // Act
+        $this->json('POST', self::URL_LOGIN, $data);
 
         // Assert
         $accessToken = auth()->getToken()->get();
@@ -57,14 +58,13 @@ class AuthTest extends TestCase
         // Arrange
         User::factory()->create();
 
-        $invalidEmail    = 'invalid@invalid.com.br';
-        $invalidPassword = 'invalid';
+        $data = [
+            'email'    => 'invalid@invalid.com.br',
+            'password' => 'invalid',
+        ];
 
         // Act
-        $this->json('POST', self::URL_LOGIN, [
-            'email'    => $invalidEmail,
-            'password' => $invalidPassword,
-        ]);
+        $this->json('POST', self::URL_LOGIN, $data);
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::UNAUTHORIZED);
@@ -106,18 +106,19 @@ class AuthTest extends TestCase
     public function should_return_email_invalid(): void
     {
         // Arrange
-        $password     = uniqid();
-        $user         = User::factory()->password($password)->create();
-        $invalidEmail = 'invalidinvalid.com.br';
-        $validations  = ['email' => 'validation.email'];
+        $password = uniqid();
+        User::factory()->password($password)->create();
+
+        $validations = ['email' => 'validation.email'];
+        $data        = [
+            'email'    => 'invalidinvalid.com.br',
+            'password' => $password,
+        ];
 
         $validationMessages = json_encode($this->validationMessages($validations));
 
         // Act
-        $response = $this->call('POST', self::URL_LOGIN, [
-            'email'    => $invalidEmail,
-            'password' => $password,
-        ]);
+        $response = $this->call('POST', self::URL_LOGIN, $data);
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());

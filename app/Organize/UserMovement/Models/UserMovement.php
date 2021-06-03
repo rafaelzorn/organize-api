@@ -26,6 +26,8 @@ class UserMovement extends Model
      * @var array
      */
     protected $hidden = [
+        'created_at',
+        'updated_at',
         'user_id',
         'deleted_at',
     ];

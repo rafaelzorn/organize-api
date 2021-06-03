@@ -2,6 +2,8 @@
 
 namespace App\Organize\UserMovement\Requests;
 
+use App\Rules\BetweenValueRule;
+
 class UserMovementStoreRequest
 {
     /**
@@ -11,9 +13,13 @@ class UserMovementStoreRequest
     {
         return [
             'movement_category_id' => 'required|integer',
-            'description'          => 'required',
-            // TODO: Aplicar validação para somente valores com 2 casas decimais
-            'value'                => 'required|numeric|between:0.01,99999999.99',
+            'description'          => 'required|string',
+            'value'                => [
+                'required',
+                'string',
+                'regex:/^[0-9]+(\.[0-9]{2})?$/',
+                new BetweenValueRule,
+            ],
             'movement_date'        => 'required|date_format:Y-m-d',
             'movement_type'        => 'required|string',
         ];
@@ -22,7 +28,7 @@ class UserMovementStoreRequest
     public static function messages(): array
     {
         return [
-            'value.between' => trans('validation.invalid_movement_value_between'),
+            'value.regex' => trans('validation.invalid_value_format'),
         ];
     }
 }

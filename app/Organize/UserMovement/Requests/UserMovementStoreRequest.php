@@ -13,7 +13,7 @@ class UserMovementStoreRequest
     {
         return [
             'movement_category_id' => 'required|integer',
-            'description'          => 'required|string',
+            'description'          => 'required|string|max:255',
             'value'                => [
                 'required',
                 'string',

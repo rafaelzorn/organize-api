@@ -52,16 +52,97 @@ class MovementTest extends TestCase
     }
 
     /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_not_create_a_new_movement_by_invalid_token(): void
+    {
+        // Arrange
+        $data         = $this->movementFaker();
+        $invalidToken = 'invalid.token';
+
+        // Act
+        $response = $this->call('POST', self::URL_STORE, $data, [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNAUTHORIZED, $response->status());
+        $this->assertEquals(trans('messages.unauthorized'), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_not_create_a_new_movement_by_invalid_movement_category(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser             = $this->authenticateUser();
+        $token                        = $authenticateUser['token'];
+        $data                         = $this->movementFaker();
+        $invalidMovementCategory      = 2;
+        $data['movement_category_id'] = $invalidMovementCategory;
+
+        // Act
+        $response = $this->json('POST', self::URL_STORE, $data, [
+            'HTTP_Authorization' => 'Bearer ' . $token
+        ]);
+
+        // Assert
+        $this->seeStatusCode(HttpStatusConstant::BAD_REQUEST);
+        $this->seeJsonEquals([
+            'code'    => HttpStatusConstant::BAD_REQUEST,
+            'message' => trans('messages.error_save_movement')
+        ]);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_fields_is_required_in_create_a_new_movement(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser = $this->authenticateUser();
+        $token            = $authenticateUser['token'];
+
+        $validations = [
+            'movement_category_id' => 'validation.required',
+            'description'          => 'validation.required',
+            'value'                => 'validation.required',
+            'movement_date'        => 'validation.required',
+            'movement_type'        => 'validation.required',
+        ];
+
+        $validationMessages = json_encode($this->validationMessages($validations));
+
+        // Act
+        $response = $this->call('POST', self::URL_STORE, [], [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $token,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($validationMessages, $response->getContent());
+    }
+
+    /**
      * @return array $data
      */
     private function movementFaker(): array
     {
-        $user             = User::factory()->create();
         $movementCategory = MovementCategory::factory()->create();
         $faker            = Factory::create();
 
         $data  = [
-            'user_id'              => $user->id,
             'movement_category_id' => $movementCategory->id,
             'description'          => $faker->sentence,
             'value'                => (string) $faker->randomFloat(2, 1, 99999999),

@@ -44,7 +44,8 @@ abstract class TestCase extends BaseTestCase
         }
 
         foreach ($validations as $key => $validation) {
-            $messages[$key] = [str_replace(':attribute', $key, trans($validation))];
+            $attribute      = str_replace('_', ' ', $key);
+            $messages[$key] = [str_replace(':attribute', $attribute, trans($validation))];
         }
 
         return $messages;

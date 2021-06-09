@@ -17,7 +17,7 @@ class UserMovementStoreRequest
             'value'                => [
                 'required',
                 'string',
-                'regex:/^[0-9]+(\.[0-9]{2})?$/',
+                'regex:/^[1-9][0-9]+(\.[0-9]{2})?$/',
                 new BetweenValueRule,
             ],
             'movement_date'        => 'required|date_format:Y-m-d',

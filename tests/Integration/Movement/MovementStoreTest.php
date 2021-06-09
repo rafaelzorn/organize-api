@@ -112,8 +112,6 @@ class MovementStoreTest extends TestCase
             'movement_type'        => 'validation.required',
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         // Act
         $response = $this->call('POST', self::URL_STORE, [], [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
@@ -121,7 +119,7 @@ class MovementStoreTest extends TestCase
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 
     /**
@@ -149,8 +147,6 @@ class MovementStoreTest extends TestCase
             'movement_type'        => 'validation.string',
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         // Act
         $response = $this->call('POST', self::URL_STORE, $data, [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
@@ -158,7 +154,7 @@ class MovementStoreTest extends TestCase
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 
     /**
@@ -180,8 +176,6 @@ class MovementStoreTest extends TestCase
             'movement_date' => 'validation.date_format',
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         // Act
         $response = $this->call('POST', self::URL_STORE, $data, [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
@@ -189,7 +183,7 @@ class MovementStoreTest extends TestCase
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 
     /**
@@ -212,8 +206,6 @@ class MovementStoreTest extends TestCase
             'value' => ['invalid.regex' => ['custom_message' => trans('validation.invalid_value_format')]]
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         // Act
         $response = $this->call('POST', self::URL_STORE, $data, [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
@@ -221,7 +213,7 @@ class MovementStoreTest extends TestCase
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 
     /**
@@ -244,8 +236,6 @@ class MovementStoreTest extends TestCase
             'value' => ['custom_message' => trans('validation.invalid_value_between')]
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         // Act
         $response = $this->call('POST', self::URL_STORE, $data, [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
@@ -253,6 +243,6 @@ class MovementStoreTest extends TestCase
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 }

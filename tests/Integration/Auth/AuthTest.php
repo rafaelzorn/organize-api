@@ -87,15 +87,13 @@ class AuthTest extends TestCase
             'password' => 'validation.required',
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         User::factory()->create();
 
         // Act
         $response = $this->call('POST', self::URL_LOGIN);
 
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 
     /**
@@ -115,14 +113,12 @@ class AuthTest extends TestCase
             'password' => $password,
         ];
 
-        $validationMessages = json_encode($this->validationMessages($validations));
-
         // Act
         $response = $this->call('POST', self::URL_LOGIN, $data);
 
         // Assert
         $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
-        $this->assertEquals($validationMessages, $response->getContent());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 
     /**

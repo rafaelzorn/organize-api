@@ -36,9 +36,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * @param array $validations
      *
-     * @return array $messages
+     * @return string $messages
      */
-    public function validationMessages(array $validations): array
+    public function validationMessages(array $validations): string
     {
         $messages = [];
 
@@ -58,6 +58,8 @@ abstract class TestCase extends BaseTestCase
 
             $messages[$key] = $message;
         }
+
+        $messages = json_encode($messages);
 
         return $messages;
     }

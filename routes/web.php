@@ -33,5 +33,6 @@ $router->group([
     $router->get('movements/categories', 'MovementCategoryController@index');
 
     // Movement
+    $router->get('movements', 'MovementController@index');
     $router->post('movements', 'MovementController@store');
 });

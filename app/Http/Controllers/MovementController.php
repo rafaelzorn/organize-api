@@ -30,6 +30,16 @@ class MovementController extends Controller
      *
      * @return JsonResponse
      */
+    public function index(Request $request): JsonResponse
+    {
+        // TODO 08/06: Continuar
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
     public function store(Request $request): JsonResponse
     {
         $this->validate(

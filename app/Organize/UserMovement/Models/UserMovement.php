@@ -3,6 +3,7 @@
 namespace App\Organize\UserMovement\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserMovement extends Model
 {
@@ -48,4 +49,38 @@ class UserMovement extends Model
         'updated_at'           => 'datetime:Y-m-d H:i:s',
         'deleted_at'           => 'datetime:Y-m-d H:i:s',
     ];
+
+    /**
+     * @param Builder $query
+     * @param int $movementCategoryId
+     *
+     * @return Builder
+     */
+    public function scopeWhereByMovementCategoryId(Builder $query, int $movementCategoryId): Builder
+    {
+        return $query->where('movement_category_id', $movementCategoryId);
+    }
+
+    /**
+     * @param Builder $query
+     * @param int $userId
+     *
+     * @return Builder
+     */
+    public function scopeWhereByUserId(Builder $query, int $userId): Builder
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $movementDateStartDate
+     * @param string $movementDateFinalDate
+     *
+     * @return Builder
+     */
+    public function scopeWhereBetweenMovementDatePeriod(Builder $query, string $movementDateStartDate, string $movementDateFinalDate): Builder
+    {
+        return $query->whereBetween('movement_date', [$movementDateStartDate, $movementDateFinalDate]);
+    }
 }

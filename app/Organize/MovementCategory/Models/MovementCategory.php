@@ -47,7 +47,7 @@ class MovementCategory extends Model
      *
      * @return Builder
      */
-    public function scopeOrderByName($query): Builder
+    public function scopeOrderByName(Builder $query): Builder
     {
         return $query->orderBy('name');
     }

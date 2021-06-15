@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Organize\UserMovement\Requests\UserMovementIndexRequest;
 use App\Organize\UserMovement\Requests\UserMovementStoreRequest;
 use App\Organize\UserMovement\Services\Contracts\UserMovementServiceInterface;
 
@@ -32,7 +33,11 @@ class MovementController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        // TODO 08/06: Continuar
+        $this->validate($request, UserMovementIndexRequest::rules());
+
+        $request = $this->userMovementService->getAllUserMovements($request->all());
+
+        return $this->responseAdapter($request);
     }
 
     /**

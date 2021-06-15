@@ -36,6 +36,21 @@ class UserMovementService implements UserMovementServiceInterface
     }
 
     /**
+     * @param array $filters
+     *
+     * @return array
+     */
+    public function getAllUserMovements(array $filters = []): array
+    {
+        $data = $this->userMovementRepository->getAllUserMovements($filters);
+
+        return [
+            'code' => HttpStatusConstant::OK,
+            'data' => $data,
+        ];
+    }
+
+    /**
      * @param array $data
      *
      * @return array

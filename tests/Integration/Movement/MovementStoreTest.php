@@ -21,7 +21,7 @@ class MovementStoreTest extends TestCase
         // Arrange
         $authenticateUser = $this->authenticateUser();
         $token            = $authenticateUser['token'];
-        $data             = MovementHelper::movementFaker();
+        $data             = UserMovementHelper::movementFaker();
 
         // Act
         $this->json('POST', self::URL_STORE, $data, ['HTTP_Authorization' => 'Bearer ' . $token]);
@@ -49,7 +49,7 @@ class MovementStoreTest extends TestCase
     public function should_not_create_a_new_movement_by_invalid_token(): void
     {
         // Arrange
-        $data         = MovementHelper::movementFaker();
+        $data         = UserMovementHelper::movementFaker();
         $invalidToken = 'invalid.token';
 
         // Act
@@ -74,7 +74,7 @@ class MovementStoreTest extends TestCase
         // Arrange
         $authenticateUser             = $this->authenticateUser();
         $token                        = $authenticateUser['token'];
-        $data                         = MovementHelper::movementFaker();
+        $data                         = UserMovementHelper::movementFaker();
         $invalidMovementCategory      = 2;
         $data['movement_category_id'] = $invalidMovementCategory;
 
@@ -134,7 +134,7 @@ class MovementStoreTest extends TestCase
         // Arrange
         $authenticateUser             = $this->authenticateUser();
         $token                        = $authenticateUser['token'];
-        $data                         = MovementHelper::movementFaker();
+        $data                         = UserMovementHelper::movementFaker();
         $data['movement_category_id'] = 'invalid category id';
         $data['description']          = rand(1, 200);
         $data['value']                = rand(1, 200);
@@ -169,7 +169,7 @@ class MovementStoreTest extends TestCase
         // Arrange
         $authenticateUser      = $this->authenticateUser();
         $token                 = $authenticateUser['token'];
-        $data                  = MovementHelper::movementFaker();
+        $data                  = UserMovementHelper::movementFaker();
         $data['movement_date'] = date('Y-m-d H:i:s');
 
         $validations = [
@@ -198,7 +198,7 @@ class MovementStoreTest extends TestCase
         // Arrange
         $authenticateUser = $this->authenticateUser();
         $token            = $authenticateUser['token'];
-        $data             = MovementHelper::movementFaker();
+        $data             = UserMovementHelper::movementFaker();
         $invalidValue     = '0100.00';
         $data['value']    = $invalidValue;
 
@@ -228,7 +228,7 @@ class MovementStoreTest extends TestCase
         // Arrange
         $authenticateUser = $this->authenticateUser();
         $token            = $authenticateUser['token'];
-        $data             = MovementHelper::movementFaker();
+        $data             = UserMovementHelper::movementFaker();
         $invalidValue     = '100000000.00';
         $data['value']    = $invalidValue;
 

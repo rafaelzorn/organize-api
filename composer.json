@@ -25,7 +25,8 @@
         "classmap": [
             "tests/",
             "tests/integration",
-            "tests/unit"
+            "tests/unit",
+            "tests/helpers/"
         ]
     },
     "config": {

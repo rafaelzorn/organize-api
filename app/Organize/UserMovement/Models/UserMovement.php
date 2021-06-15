@@ -4,9 +4,12 @@ namespace App\Organize\UserMovement\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UserMovement extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

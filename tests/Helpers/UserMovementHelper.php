@@ -3,8 +3,9 @@
 use Faker\Factory;
 use App\Organize\MovementCategory\Models\MovementCategory;
 use App\Constants\MovementTypeConstant;
+use App\Organize\User\Models\User;
 
-class MovementHelper
+class UserMovementHelper
 {
     private const MOVEMENT_TYPES = [
         0 => MovementTypeConstant::ENTRY,
@@ -12,9 +13,11 @@ class MovementHelper
     ];
 
     /**
+     * @param bool $withUserId
+     *
      * @return array $data
      */
-    public static function movementFaker(): array
+    public static function movementFaker(bool $withUserId = false): array
     {
         $movementCategory = MovementCategory::factory()->create();
         $faker            = Factory::create();
@@ -26,6 +29,12 @@ class MovementHelper
             'movement_date'        => $faker->date,
             'movement_type'        => self::MOVEMENT_TYPES[random_int(0, 1)],
         ];
+
+        if ($withUserId) {
+            $user = User::factory()->create();
+
+            $data['user_id'] = $user->id;
+        }
 
         return $data;
     }

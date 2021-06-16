@@ -42,6 +42,8 @@ class UserMovementService implements UserMovementServiceInterface
      */
     public function getAllUserMovements(array $filters = []): array
     {
+        $filters = Arr::add($filters, 'user_id', auth()->user()->id);
+
         $data = $this->userMovementRepository->getAllUserMovements($filters);
 
         return [

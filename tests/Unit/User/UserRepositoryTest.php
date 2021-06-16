@@ -2,6 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 use Faker\Factory;
 use App\Organize\User\Models\User;
 use App\Organize\User\Repositories\UserRepository;
@@ -45,9 +46,7 @@ class UserRepositoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals($data['name'], $user->name);
-        $this->assertEquals($data['email'], $user->email);
-        $this->assertEquals($data['password'], $user->password);
+        $this->assertEquals(Arr::except($data, ['password']), $user->toArray());
     }
 
     /**
@@ -65,9 +64,6 @@ class UserRepositoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals($data['id'], $user->id);
-        $this->assertEquals($data['name'], $user->name);
-        $this->assertEquals($data['email'], $user->email);
-        $this->assertEquals($data['password'], $user->password);
+        $this->assertEquals($data->toArray(), $user->toArray());
     }
 }

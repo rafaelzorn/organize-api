@@ -28,11 +28,30 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
      */
     public function getAllUserMovements(array $filters = []): Collection
     {
-        $query = $this->model->whereByUserId(auth()->user()->id);
+        $query = $this->model->query();
+
+        $query = $this->filterByUserId($query, $filters);
         $query = $this->filterByMovementCategoryId($query, $filters);
         $query = $this->filterByMovementDatePeriod($query, $filters);
 
         return $query->get();
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $filters
+     *
+     * @return Builder
+     */
+    private function filterByUserId(Builder $query, array $filters): Builder
+    {
+        $userId = ArrayHelper::checkValueArray($filters, 'user_id');
+
+        if ($userId) {
+            $query = $query->whereByUserId($userId);
+        }
+
+        return $query;
     }
 
     /**

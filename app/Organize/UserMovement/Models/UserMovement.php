@@ -4,7 +4,10 @@ namespace App\Organize\UserMovement\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Organize\User\Models\User;
+use App\Organize\MovementCategory\Models\MovementCategory;
 
 class UserMovement extends Model
 {
@@ -52,6 +55,22 @@ class UserMovement extends Model
         'updated_at'           => 'datetime:Y-m-d H:i:s',
         'deleted_at'           => 'datetime:Y-m-d H:i:s',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function movementCategory(): BelongsTo
+    {
+        return $this->belongsTo(MovementCategory::class);
+    }
 
     /**
      * @param Builder $query

@@ -28,16 +28,12 @@ class MovementStoreTest extends TestCase
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::OK);
+
+        $data['id'] = 1;
+
         $this->seeJsonEquals([
             'code' => HttpStatusConstant::OK,
-            'data' => [
-                'movement_category_id' => $data['movement_category_id'],
-                'description'          => $data['description'],
-                'value'                => $data['value'],
-                'movement_date'        => $data['movement_date'],
-                'movement_type'        => $data['movement_type'],
-                'id'                   => 1
-            ],
+            'data' => $data,
         ]);
     }
 

@@ -31,7 +31,7 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_movements_from_a_specific_user(): void
+    public function should_return_all_movements_from_a_specific_user(): void
     {
         // Arrange
         $user      = User::factory()->create();
@@ -66,7 +66,7 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_movements_from_a_specific_category(): void
+    public function should_return_all_movements_from_a_specific_category(): void
     {
         // Arrange
         $category      = MovementCategory::factory()->create();
@@ -101,12 +101,12 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_movements_from_a_specific_period(): void
+    public function should_return_all_movements_from_a_specific_period(): void
     {
         // Arrange
         $filters = [
             'movement_date_start_date' => '2021-06-14',
-            'movement_date_final_date' => '2021-06-18'
+            'movement_date_final_date' => '2021-06-18',
         ];
 
         $period = UserMovement::factory()
@@ -148,7 +148,7 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_all_movements_without_filters(): void
+    public function should_return_all_movements(): void
     {
         // Arrange
         $data = UserMovement::factory()
@@ -173,7 +173,7 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_create_a_new_user_movement(): void
+    public function should_create_a_new_movement(): void
     {
         // Arrange
         $data = UserMovementHelper::movementFaker(true);

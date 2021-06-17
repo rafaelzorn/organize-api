@@ -16,7 +16,7 @@ class MovementCategoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_ordered_movement_categories(): void
+    public function should_return_ordered_categories(): void
     {
         $this->refreshApplication();
 
@@ -48,7 +48,7 @@ class MovementCategoryTest extends TestCase
      *
      * @return void
      */
-    public function should_not_return_movement_categories_by_invalid_token(): void
+    public function should_not_return_categories_because_the_token_is_invalid(): void
     {
         // Arrange
         MovementCategory::factory()->create();

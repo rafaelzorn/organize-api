@@ -29,7 +29,7 @@ class MovementCategoryRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_create_a_new_movement_category(): void
+    public function should_create_a_new_category(): void
     {
         // Arrange
         $faker = Factory::create();
@@ -50,7 +50,7 @@ class MovementCategoryRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_find_a_movement_category(): void
+    public function should_find_a_category(): void
     {
         // Arrange
         $data = MovementCategory::factory()->create();
@@ -68,7 +68,7 @@ class MovementCategoryRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_return_ordered_movement_categories(): void
+    public function should_return_ordered_categories(): void
     {
         // Arrange
         $data = [
@@ -93,7 +93,7 @@ class MovementCategoryRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_find_a_movement_category_using_findOrfail(): void
+    public function should_find_a_category_and_dont_failed(): void
     {
         // Arrange
         $data = MovementCategory::factory()->create();

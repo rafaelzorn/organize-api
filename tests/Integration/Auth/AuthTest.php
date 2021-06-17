@@ -53,7 +53,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_return_unauthorized_invalid_credentials(): void
+    public function should_return_unauthorized_by_invalid_credentials(): void
     {
         // Arrange
         User::factory()->create();
@@ -79,7 +79,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_return_email_and_password_is_required(): void
+    public function should_return_validation_that_email_and_password_are_required(): void
     {
         // Arrange
         $validations = [
@@ -101,7 +101,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_return_email_invalid(): void
+    public function should_return_validation_that_email_is_invalid(): void
     {
         // Arrange
         $password = uniqid();
@@ -126,7 +126,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_return_a_authenticated_user(): void
+    public function should_return_an_authenticated_user(): void
     {
         $this->refreshApplication();
 
@@ -154,7 +154,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_not_return_a_user_authenticating_by_invalid_token(): void
+    public function should_not_return_an_authenticating_user_because_the_token_is_invalid(): void
     {
         $this->refreshApplication();
 
@@ -177,7 +177,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_logout_a_authenticated_user(): void
+    public function should_logout_an_authenticated_user(): void
     {
         $this->refreshApplication();
 
@@ -201,7 +201,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_not_logout_a_user_authenticating_by_invalid_token(): void
+    public function should_not_logout_an_authenticating_user_because_the_token_is_invalid(): void
     {
         $this->refreshApplication();
 
@@ -256,7 +256,7 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function should_not_refresh_token_by_invalid_token(): void
+    public function should_not_refresh_token_because_the_token_is_invalid(): void
     {
         $this->refreshApplication();
 

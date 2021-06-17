@@ -42,7 +42,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_not_create_a_new_movement_by_invalid_token(): void
+    public function should_not_create_a_new_movement_because_the_token_is_invalid(): void
     {
         // Arrange
         $data         = UserMovementHelper::movementFaker();
@@ -63,7 +63,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_not_create_a_new_movement_by_invalid_movement_category(): void
+    public function should_not_create_a_new_movement_because_the_movement_category_is_invalid(): void
     {
         $this->refreshApplication();
 
@@ -92,7 +92,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_return_fields_is_required_in_create_a_new_movement(): void
+    public function should_return_validation_that_fields_are_required(): void
     {
         $this->refreshApplication();
 
@@ -123,7 +123,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_return_validation_type_fields_create_a_new_movement(): void
+    public function should_return_validation_of_field_types(): void
     {
         $this->refreshApplication();
 
@@ -158,7 +158,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_return_invalid_format_date_in_create_a_new_movement(): void
+    public function should_return_validation_that_date_format_is_invalid(): void
     {
         $this->refreshApplication();
 
@@ -187,7 +187,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_return_invalid_value_in_create_a_new_movement(): void
+    public function should_return_validation_that_value_format_is_invalid(): void
     {
         $this->refreshApplication();
 
@@ -217,7 +217,7 @@ class MovementStoreTest extends TestCase
      *
      * @return void
      */
-    public function should_return_invalid_value_must_be_between_in_create_a_new_movement(): void
+    public function should_return_validation_that_value_is_greater_than_and_less_than(): void
     {
         $this->refreshApplication();
 

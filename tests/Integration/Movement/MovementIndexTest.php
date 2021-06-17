@@ -55,6 +55,27 @@ class MovementIndexTest extends TestCase
      *
      * @return void
      */
+    public function should_not_return_all_authenticated_user_movements_because_the_token_is_invalid(): void
+    {
+        // Arrange
+        UserMovement::factory()->forUser()->forMovementCategory()->create();
+        $invalidToken = 'invalid.token';
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, [], [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $invalidToken,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNAUTHORIZED, $response->status());
+        $this->assertEquals(trans('messages.unauthorized'), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function should_return_authenticated_user_movements_from_a_specific_category(): void
     {
         $this->refreshApplication();
@@ -105,7 +126,7 @@ class MovementIndexTest extends TestCase
         $token            = $authenticateUser['token'];
         $filters          = [
             'movement_date_start_date' => '2021-06-14',
-            'movement_date_final_date' => '2021-06-18'
+            'movement_date_final_date' => '2021-06-18',
         ];
 
         $period = UserMovement::factory()
@@ -140,5 +161,40 @@ class MovementIndexTest extends TestCase
             'code' => HttpStatusConstant::OK,
             'data' => $data,
         ]);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_validation_that_fields_must_have_a_value(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser = $this->authenticateUser();
+        $token            = $authenticateUser['token'];
+
+        $filters = [
+            'movement_category_id'     => '',
+            'movement_date_start_date' => '',
+            'movement_date_final_date' => '',
+        ];
+
+        $validations = [
+            'movement_category_id'     => 'validation.filled',
+            'movement_date_start_date' => 'validation.filled',
+            'movement_date_final_date' => 'validation.filled',
+        ];
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, $filters, [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $token,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
     }
 }

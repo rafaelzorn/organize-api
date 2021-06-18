@@ -189,4 +189,27 @@ class UserMovementRepositoryTest extends TestCase
 
         $this->assertEquals($data, $userMovement);
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_find_a_movement_and_dont_failed(): void
+    {
+        // Arrange
+        $user = User::factory()->create();
+        $data = UserMovement::factory()
+                    ->userId($user->id)
+                    ->forMovementCategory()
+                    ->create();
+
+        // Act
+        $userMovement = $this->userMovementRepository
+                             ->getUserMovement($user->id, $data['id']);
+
+        // Assert
+        $this->assertInstanceOf(UserMovement::class, $userMovement);
+        $this->assertEquals($data->toArray(), $userMovement->toArray());
+    }
 }

@@ -58,7 +58,6 @@ class MovementIndexTest extends TestCase
     public function should_not_return_all_authenticated_user_movements_because_the_token_is_invalid(): void
     {
         // Arrange
-        UserMovement::factory()->forUser()->forMovementCategory()->create();
         $invalidToken = 'invalid.token';
 
         // Act
@@ -183,9 +182,135 @@ class MovementIndexTest extends TestCase
         ];
 
         $validations = [
-            'movement_category_id'     => 'validation.filled',
-            'movement_date_start_date' => 'validation.filled',
-            'movement_date_final_date' => 'validation.filled',
+            'movement_category_id'     => trans('validation.filled'),
+            'movement_date_start_date' => trans('validation.filled'),
+            'movement_date_final_date' => trans('validation.filled'),
+        ];
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, $filters, [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $token,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_validation_that_field_movement_category_id_must_be_an_integer(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser = $this->authenticateUser();
+        $token            = $authenticateUser['token'];
+
+        $filters = [
+            'movement_category_id' => 'invalid',
+        ];
+
+        $validations = [
+            'movement_category_id' => trans('validation.integer'),
+        ];
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, $filters, [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $token,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_validation_that_period_dates_dont_match_format(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser = $this->authenticateUser();
+        $token            = $authenticateUser['token'];
+
+        $filters = [
+            'movement_date_start_date' => date('Y-m-d H:i:s'),
+            'movement_date_final_date' => date('Y-m-d H:i:s'),
+        ];
+
+        $validations = [
+            'movement_date_start_date' => trans('validation.date_format', ['format' => 'Y-m-d']),
+            'movement_date_final_date' => trans('validation.date_format', ['format' => 'Y-m-d']),
+        ];
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, $filters, [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $token,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_validation_that_the_final_date_field_is_required_when_the_start_date_is_present(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser = $this->authenticateUser();
+        $token            = $authenticateUser['token'];
+
+        $filters = [
+            'movement_date_start_date' => date('Y-m-d'),
+        ];
+
+        $validations = [
+            'movement_date_final_date' => trans('validation.required_with', ['values' => 'movement date start date']),
+        ];
+
+        // Act
+        $response = $this->call('GET', self::URL_INDEX, $filters, [], [], [
+            'HTTP_Authorization' => 'Bearer ' . $token,
+        ]);
+
+        // Assert
+        $this->assertEquals(HttpStatusConstant::UNPROCESSABLE_ENTITY, $response->status());
+        $this->assertEquals($this->validationMessages($validations), $response->getContent());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_return_validation_that_the_start_date_field_is_required_when_the_final_date_is_present(): void
+    {
+        $this->refreshApplication();
+
+        // Arrange
+        $authenticateUser = $this->authenticateUser();
+        $token            = $authenticateUser['token'];
+
+        $filters = [
+            'movement_date_final_date' => date('Y-m-d'),
+        ];
+
+        $validations = [
+            'movement_date_start_date' => trans('validation.required_with', ['values' => 'movement date final date']),
         ];
 
         // Act

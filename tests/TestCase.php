@@ -47,14 +47,8 @@ abstract class TestCase extends BaseTestCase
         }
 
         foreach ($validations as $key => $validation) {
-            $attribute     = str_replace('_', ' ', $key);
-            $customMessage = $this->getCustomMessage($validation);
-
-            if ($customMessage) {
-                $message = [$customMessage];
-            } else {
-                $message = [str_replace(':attribute', $attribute, trans($validation))];
-            }
+            $attribute = str_replace('_', ' ', $key);
+            $message   = [str_replace(':attribute', $attribute, trans($validation))];
 
             $messages[$key] = $message;
         }
@@ -62,28 +56,5 @@ abstract class TestCase extends BaseTestCase
         $messages = json_encode($messages);
 
         return $messages;
-    }
-
-    /**
-     * @param mixed $validation
-     *
-     * @return string $customMessage
-     */
-    private function getCustomMessage($validation): string
-    {
-        if (!Arr::accessible($validation)) {
-            return false;
-        }
-
-        $customMessage = '';
-
-        if (Arr::exists($validation, 'custom_message')) {
-            $customMessage = Arr::first($validation);
-        } else {
-            $customMessage = array_column($validation, 'custom_message');
-            $customMessage = Arr::first($customMessage);
-        }
-
-        return $customMessage;
     }
 }

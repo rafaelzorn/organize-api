@@ -26,4 +26,9 @@ interface BaseRepositoryInterface
      * @return Model
      */
     public function findOrFail(int $id): ?Model;
+
+    /**
+     * @return Model
+     */
+    public function firstOrFail(): ?Model;
 }

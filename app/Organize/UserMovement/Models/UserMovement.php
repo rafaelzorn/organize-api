@@ -105,4 +105,15 @@ class UserMovement extends Model
     {
         return $query->whereBetween('movement_date', [$movementDateStartDate, $movementDateFinalDate]);
     }
+
+    /**
+     * @param Builder $query
+     * @param int $id
+     *
+     * @return Builder
+     */
+    public function scopeWhereById(Builder $query, int $id): Builder
+    {
+        return $query->where('id', $id);
+    }
 }

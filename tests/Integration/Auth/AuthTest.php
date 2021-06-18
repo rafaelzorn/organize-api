@@ -83,8 +83,8 @@ class AuthTest extends TestCase
     {
         // Arrange
         $validations = [
-            'email'    => 'validation.required',
-            'password' => 'validation.required',
+            'email'    => trans('validation.required'),
+            'password' => trans('validation.required'),
         ];
 
         User::factory()->create();
@@ -107,7 +107,7 @@ class AuthTest extends TestCase
         $password = uniqid();
         User::factory()->password($password)->create();
 
-        $validations = ['email' => 'validation.email'];
+        $validations = ['email' => trans('validation.email')];
         $data        = [
             'email'    => 'invalidinvalid.com.br',
             'password' => $password,

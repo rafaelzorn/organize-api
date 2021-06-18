@@ -101,11 +101,11 @@ class MovementStoreTest extends TestCase
         $token            = $authenticateUser['token'];
 
         $validations = [
-            'movement_category_id' => 'validation.required',
-            'description'          => 'validation.required',
-            'value'                => 'validation.required',
-            'movement_date'        => 'validation.required',
-            'movement_type'        => 'validation.required',
+            'movement_category_id' => trans('validation.required'),
+            'description'          => trans('validation.required'),
+            'value'                => trans('validation.required'),
+            'movement_date'        => trans('validation.required'),
+            'movement_type'        => trans('validation.required'),
         ];
 
         // Act
@@ -137,10 +137,10 @@ class MovementStoreTest extends TestCase
         $data['movement_type']        = rand(1, 200);
 
         $validations = [
-            'movement_category_id' => 'validation.integer',
-            'description'          => 'validation.string',
-            'value'                => 'validation.string',
-            'movement_type'        => 'validation.string',
+            'movement_category_id' => trans('validation.integer'),
+            'description'          => trans('validation.string'),
+            'value'                => trans('validation.string'),
+            'movement_type'        => trans('validation.string'),
         ];
 
         // Act
@@ -169,7 +169,7 @@ class MovementStoreTest extends TestCase
         $data['movement_date'] = date('Y-m-d H:i:s');
 
         $validations = [
-            'movement_date' => 'validation.date_format',
+            'movement_date' => trans('validation.date_format', ['format' => 'Y-m-d']),
         ];
 
         // Act
@@ -199,7 +199,7 @@ class MovementStoreTest extends TestCase
         $data['value']    = $invalidValue;
 
         $validations = [
-            'value' => ['invalid.regex' => ['custom_message' => trans('validation.invalid_value_format')]]
+            'value' => trans('validation.invalid_value_format'),
         ];
 
         // Act
@@ -229,7 +229,7 @@ class MovementStoreTest extends TestCase
         $data['value']    = $invalidValue;
 
         $validations = [
-            'value' => ['custom_message' => trans('validation.invalid_value_between')]
+            'value' => trans('validation.invalid_value_between'),
         ];
 
         // Act

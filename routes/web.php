@@ -35,4 +35,5 @@ $router->group([
     // Movement
     $router->get('movements', 'MovementController@index');
     $router->post('movements', 'MovementController@store');
+    $router->get('movements/{id}', 'MovementController@show');
 });

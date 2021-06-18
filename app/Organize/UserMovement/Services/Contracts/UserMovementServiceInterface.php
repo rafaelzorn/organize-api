@@ -17,4 +17,11 @@ interface UserMovementServiceInterface
      * @return array
      */
     public function store(array $data): array;
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public function getUserMovement(int $id): array;
 }

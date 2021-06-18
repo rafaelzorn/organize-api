@@ -78,4 +78,27 @@ class UserMovementService implements UserMovementServiceInterface
             ];
         }
     }
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public function getUserMovement(int $id): array
+    {
+        try {
+            $userId = auth()->user()->id;
+            $userMovement = $this->userMovementRepository->getUserMovement($userId, $id);
+
+            return [
+                'code' => HttpStatusConstant::OK,
+                'data' => $userMovement,
+            ];
+        } catch (Exception $e) {
+            return [
+                'code'    => HttpStatusConstant::NOT_FOUND,
+                'message' => trans('messages.movement_not_found'),
+            ];
+        }
+    }
 }

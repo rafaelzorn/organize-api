@@ -51,7 +51,6 @@ class MovementCategoryTest extends TestCase
     public function should_not_return_categories_because_the_token_is_invalid(): void
     {
         // Arrange
-        MovementCategory::factory()->create();
         $invalidToken = 'invalid.token';
 
         // Act

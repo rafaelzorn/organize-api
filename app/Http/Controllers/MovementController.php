@@ -57,4 +57,16 @@ class MovementController extends Controller
 
         return $this->responseAdapter($request);
     }
+
+    /**
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function show($id): JsonResponse
+    {
+        $request = $this->userMovementService->getUserMovement($id);
+
+        return $this->responseAdapter($request);
+    }
 }

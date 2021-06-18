@@ -38,6 +38,20 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
     }
 
     /**
+     * @param int $userId
+     * @param int $id
+     *
+     * @return UserMovement
+     */
+    public function getUserMovement(int $userId, int $id): UserMovement
+    {
+        return $this->model
+                    ->whereByUserId($userId)
+                    ->whereById($id)
+                    ->firstOrFail();
+    }
+
+    /**
      * @param Builder $query
      * @param array $filters
      *

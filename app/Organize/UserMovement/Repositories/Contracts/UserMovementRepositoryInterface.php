@@ -21,5 +21,5 @@ interface UserMovementRepositoryInterface extends BaseRepositoryInterface
      *
      * @return UserMovement
      */
-    public function getUserMovement(int $userId, int $id): UserMovement;
+    public function getUserMovement(int $userId, int $id): ?UserMovement;
 }

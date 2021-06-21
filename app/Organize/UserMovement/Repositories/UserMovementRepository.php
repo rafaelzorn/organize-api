@@ -43,7 +43,7 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
      *
      * @return UserMovement
      */
-    public function getUserMovement(int $userId, int $id): UserMovement
+    public function getUserMovement(int $userId, int $id): ?UserMovement
     {
         return $this->model
                     ->whereByUserId($userId)

@@ -26,7 +26,7 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
      *
      * @return Collection
      */
-    public function getAllUserMovements(array $filters = []): Collection
+    public function getAllMovements(array $filters = []): Collection
     {
         $query = $this->model->query();
 
@@ -64,6 +64,25 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
                     ->whereById($id)
                     ->firstOrFail()
                     ->delete();
+    }
+
+    /**
+     * @param int $userId
+     * @param int $id
+     * @param array $data
+     *
+     * @return UserMovement
+     */
+    public function updateUserMovement(int $userId, int $id, array $data): UserMovement
+    {
+        $userMovement = $this->model
+                             ->whereByUserId($userId)
+                             ->whereById($id)
+                             ->firstOrFail();
+
+        $userMovement->update($data);
+
+        return $userMovement;
     }
 
     /**

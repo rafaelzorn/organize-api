@@ -13,7 +13,7 @@ interface UserMovementRepositoryInterface extends BaseRepositoryInterface
      *
      * @return Collection
      */
-    public function getAllUserMovements(array $filters = []): Collection;
+    public function getAllMovements(array $filters = []): Collection;
 
     /**
      * @param int $userId
@@ -30,4 +30,13 @@ interface UserMovementRepositoryInterface extends BaseRepositoryInterface
      * @return bool
      */
     public function deleteUserMovement(int $userId, int $id): bool;
+
+    /**
+     * @param int $userId
+     * @param int $id
+     * @param array $data
+     *
+     * @return UserMovement
+     */
+    public function updateUserMovement(int $userId, int $id, array $data): UserMovement;
 }

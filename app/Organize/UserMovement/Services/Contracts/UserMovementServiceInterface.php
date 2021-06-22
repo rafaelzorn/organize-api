@@ -20,6 +20,14 @@ interface UserMovementServiceInterface
 
     /**
      * @param int $id
+     * @param array $data
+     *
+     * @return array
+     */
+    public function updateUserMovement(int $id, array $data): array;
+
+    /**
+     * @param int $id
      *
      * @return array
      */

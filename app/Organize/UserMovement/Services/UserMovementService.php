@@ -44,7 +44,7 @@ class UserMovementService implements UserMovementServiceInterface
     {
         $filters = Arr::add($filters, 'user_id', auth()->user()->id);
 
-        $data = $this->userMovementRepository->getAllUserMovements($filters);
+        $data = $this->userMovementRepository->getAllMovements($filters);
 
         return [
             'code' => HttpStatusConstant::OK,
@@ -66,6 +66,35 @@ class UserMovementService implements UserMovementServiceInterface
             $data = Arr::add($data, 'user_id', auth()->user()->id);
 
             $userMovement = $this->userMovementRepository->create($data);
+
+            return [
+                'code' => HttpStatusConstant::OK,
+                'data' => $userMovement,
+            ];
+        } catch (Exception $e) {
+            return [
+                'code'    => HttpStatusConstant::BAD_REQUEST,
+                'message' => trans('messages.error_save_movement'),
+            ];
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     *
+     * @return array
+     */
+    public function updateUserMovement(int $id, array $data): array
+    {
+        try {
+            $this->movementCategoryRepository
+                 ->findOrFail($data['movement_category_id']);
+
+            $userId = auth()->user()->id;
+
+            $userMovement = $this->userMovementRepository
+                                 ->updateUserMovement($userId, $id, $data);
 
             return [
                 'code' => HttpStatusConstant::OK,

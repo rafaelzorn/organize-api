@@ -51,7 +51,7 @@ class UserMovementRepositoryTest extends TestCase
             ->create();
 
         // Act
-        $userMovements = $this->userMovementRepository->getAllUserMovements($filters);
+        $userMovements = $this->userMovementRepository->getAllMovements($filters);
 
         // Assert
         $this->assertCount(3, $userMovements);
@@ -86,7 +86,7 @@ class UserMovementRepositoryTest extends TestCase
             ->create();
 
         // Act
-        $userMovements = $this->userMovementRepository->getAllUserMovements($filters);
+        $userMovements = $this->userMovementRepository->getAllMovements($filters);
 
         // Assert
         $this->assertCount(3, $userMovements);
@@ -133,7 +133,7 @@ class UserMovementRepositoryTest extends TestCase
                 ->create();
 
         // Act
-        $userMovements = $this->userMovementRepository->getAllUserMovements($filters);
+        $userMovements = $this->userMovementRepository->getAllMovements($filters);
 
         // Assert
         $this->assertCount(4, $userMovements);
@@ -158,7 +158,7 @@ class UserMovementRepositoryTest extends TestCase
                     ->create();
 
         // Act
-        $userMovements = $this->userMovementRepository->getAllUserMovements();
+        $userMovements = $this->userMovementRepository->getAllMovements();
 
         // Assert
         $this->assertCount(4, $userMovements);
@@ -195,7 +195,7 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_find_a_movement_and_dont_failed(): void
+    public function should_find_a_user_movement_and_dont_failed(): void
     {
         // Arrange
         $user = User::factory()->create();
@@ -218,7 +218,7 @@ class UserMovementRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function should_delete_a_movement(): void
+    public function should_delete_a_user_movement(): void
     {
         // Arrange
         $user = User::factory()->create();
@@ -234,5 +234,33 @@ class UserMovementRepositoryTest extends TestCase
         // Assert
         $this->assertCount(0, UserMovement::all());
         $this->assertEquals($deleted, true);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_update_a_user_movement(): void
+    {
+        // Arrange
+        $user         = User::factory()->create();
+        $dataToUpdate = UserMovementHelper::movementFaker();
+
+        $data = UserMovement::factory()
+                    ->userId($user->id)
+                    ->forMovementCategory()
+                    ->create();
+
+        // Act
+        $userMovement = $this->userMovementRepository
+            ->updateUserMovement($user->id, $data['id'], $dataToUpdate);
+
+        // Assert
+        $this->assertInstanceOf(UserMovement::class, $userMovement);
+
+        $userMovement = Arr::except($userMovement->toArray(), ['id', 'user_id']);
+
+        $this->assertEquals($dataToUpdate, $userMovement);
     }
 }

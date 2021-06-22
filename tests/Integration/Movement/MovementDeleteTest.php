@@ -1,7 +1,6 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
-
 use App\Organize\UserMovement\Models\UserMovement;
 use App\Constants\HttpStatusConstant;
 use App\Organize\User\Models\User;
@@ -10,7 +9,7 @@ class MovementDeleteTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private const URL_DELETE = '/api/v1/movements/';
+    private const URL_DESTROY = '/api/v1/movements/';
 
     /**
      * @test

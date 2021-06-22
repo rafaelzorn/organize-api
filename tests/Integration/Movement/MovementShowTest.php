@@ -1,7 +1,6 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
-
 use App\Organize\UserMovement\Models\UserMovement;
 use App\Constants\HttpStatusConstant;
 use App\Organize\User\Models\User;

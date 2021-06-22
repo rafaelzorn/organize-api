@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Organize\UserMovement\Requests\UserMovementIndexRequest;
 use App\Organize\UserMovement\Requests\UserMovementStoreRequest;
+use App\Organize\UserMovement\Requests\UserMovementUpdateRequest;
 use App\Organize\UserMovement\Services\Contracts\UserMovementServiceInterface;
 
 class MovementController extends Controller
@@ -63,9 +64,28 @@ class MovementController extends Controller
      *
      * @return JsonResponse
      */
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         $request = $this->userMovementService->getUserMovement($id);
+
+        return $this->responseAdapter($request);
+    }
+
+    /**
+     * @param int $id
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function update(int $id, Request $request): JsonResponse
+    {
+        $this->validate(
+            $request,
+            UserMovementUpdateRequest::rules(),
+            UserMovementUpdateRequest::messages()
+        );
+
+        $request = $this->userMovementService->updateUserMovement($id, $request->all());
 
         return $this->responseAdapter($request);
     }

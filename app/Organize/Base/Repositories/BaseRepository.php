@@ -49,20 +49,4 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->findOrFail($id);
     }
-
-    /**
-     * @return Model
-     */
-    public function firstOrFail(): ?Model
-    {
-        return $this->model->firstOrFail($id);
-    }
-
-    /**
-     * @return bool
-     */
-    public function delete(): bool
-    {
-        return $this->model->delete();
-    }
 }

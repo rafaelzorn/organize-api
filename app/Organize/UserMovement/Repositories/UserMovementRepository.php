@@ -52,6 +52,21 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
     }
 
     /**
+     * @param int $userId
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteUserMovement(int $userId, int $id): bool
+    {
+        return $this->model
+                    ->whereByUserId($userId)
+                    ->whereById($id)
+                    ->firstOrFail()
+                    ->delete();
+    }
+
+    /**
      * @param Builder $query
      * @param array $filters
      *

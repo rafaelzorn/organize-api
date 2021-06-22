@@ -24,4 +24,11 @@ interface UserMovementServiceInterface
      * @return array
      */
     public function getUserMovement(int $id): array;
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public function deleteUserMovement(int $id): array;
 }

@@ -36,4 +36,5 @@ $router->group([
     $router->get('movements', 'MovementController@index');
     $router->post('movements', 'MovementController@store');
     $router->get('movements/{id}', 'MovementController@show');
+    $router->delete('movements/{id}', 'MovementController@destroy');
 });

@@ -22,4 +22,12 @@ interface UserMovementRepositoryInterface extends BaseRepositoryInterface
      * @return UserMovement
      */
     public function getUserMovement(int $userId, int $id): ?UserMovement;
+
+    /**
+     * @param int $userId
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteUserMovement(int $userId, int $id): bool;
 }

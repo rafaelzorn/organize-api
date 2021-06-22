@@ -57,4 +57,12 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->firstOrFail($id);
     }
+
+    /**
+     * @return bool
+     */
+    public function delete(): bool
+    {
+        return $this->model->delete();
+    }
 }

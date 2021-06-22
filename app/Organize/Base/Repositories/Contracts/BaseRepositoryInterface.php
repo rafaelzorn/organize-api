@@ -31,4 +31,9 @@ interface BaseRepositoryInterface
      * @return Model
      */
     public function firstOrFail(): ?Model;
+
+    /**
+     * @return bool
+     */
+    public function delete(): bool;
 }

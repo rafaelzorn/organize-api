@@ -212,4 +212,27 @@ class UserMovementRepositoryTest extends TestCase
         $this->assertInstanceOf(UserMovement::class, $userMovement);
         $this->assertEquals($data->toArray(), $userMovement->toArray());
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function should_delete_a_movement(): void
+    {
+        // Arrange
+        $user = User::factory()->create();
+        $data = UserMovement::factory()
+                    ->userId($user->id)
+                    ->forMovementCategory()
+                    ->create();
+
+        // Act
+        $deleted = $this->userMovementRepository
+            ->deleteUserMovement($user->id, $data['id']);
+
+        // Assert
+        $this->assertEquals($deleted, true);
+        $this->assertCount(1, UserMovement::all());
+    }
 }

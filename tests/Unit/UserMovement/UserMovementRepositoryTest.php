@@ -232,7 +232,7 @@ class UserMovementRepositoryTest extends TestCase
             ->deleteUserMovement($user->id, $data['id']);
 
         // Assert
+        $this->assertCount(0, UserMovement::all());
         $this->assertEquals($deleted, true);
-        $this->assertCount(1, UserMovement::all());
     }
 }

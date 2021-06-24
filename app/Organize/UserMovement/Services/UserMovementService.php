@@ -57,7 +57,7 @@ class UserMovementService implements UserMovementServiceInterface
      *
      * @return array
      */
-    public function store(array $data): array
+    public function createUserMovement(array $data): array
     {
         try {
             $this->movementCategoryRepository

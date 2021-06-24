@@ -12,7 +12,7 @@ use App\Organize\MovementCategory\Repositories\Contracts\MovementCategoryReposit
 use App\Organize\UserMovement\Repositories\UserMovementRepository;
 use App\Organize\UserMovement\Repositories\Contracts\UserMovementRepositoryInterface;
 
-class RepositoryProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider
 {
     /**
      * @return void

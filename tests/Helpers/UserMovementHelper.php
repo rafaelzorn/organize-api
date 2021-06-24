@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Factory;
+use App\Helpers\FakerHelper;
 use App\Organize\MovementCategory\Models\MovementCategory;
 use App\Constants\MovementTypeConstant;
 use App\Organize\User\Models\User;
@@ -25,7 +26,7 @@ class UserMovementHelper
         $data  = [
             'movement_category_id' => $movementCategory->id,
             'description'          => $faker->sentence,
-            'value'                => (string) $faker->randomFloat(2, 1, 99999999),
+            'value'                => FakerHelper::decimal(),
             'movement_date'        => $faker->date,
             'movement_type'        => self::MOVEMENT_TYPES[random_int(0, 1)],
         ];

@@ -31,7 +31,7 @@ class MovementDeleteTest extends TestCase
                     ->create();
 
         // Act
-        $this->json('DELETE', self::URL_DELETE . $data->id, [], ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('DELETE', self::URL_DESTROY . $data->id, [], ['HTTP_Authorization' => 'Bearer ' . $token]);
 
         // Assert
         $this->assertCount(0, UserMovement::all());
@@ -62,7 +62,7 @@ class MovementDeleteTest extends TestCase
                     ->create();
 
         // Act
-        $this->json('DELETE', self::URL_DELETE . $data->id, [], ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('DELETE', self::URL_DESTROY . $data->id, [], ['HTTP_Authorization' => 'Bearer ' . $token]);
 
         // Assert
         $this->assertCount(1, UserMovement::all());
@@ -94,7 +94,7 @@ class MovementDeleteTest extends TestCase
             ->create();
 
         // Act
-        $this->json('DELETE', self::URL_DELETE . $otherId, [], ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('DELETE', self::URL_DESTROY . $otherId, [], ['HTTP_Authorization' => 'Bearer ' . $token]);
 
         // Assert
         $this->assertCount(1, UserMovement::all());

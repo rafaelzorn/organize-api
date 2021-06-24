@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Organize\UserMovement\Models;
 
+use App\Helpers\FakerHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Organize\UserMovement\Models\UserMovement;
 use App\Constants\MovementTypeConstant;
@@ -71,7 +72,7 @@ class UserMovementFactory extends Factory
     {
         return [
             'description'   => $this->faker->sentence,
-            'value'         => (string) $this->faker->randomFloat(2, 1, 99999999),
+            'value'         => FakerHelper::decimal(),
             'movement_date' => $this->faker->date,
             'movement_type' => self::MOVEMENT_TYPES[random_int(0, 1)],
         ];

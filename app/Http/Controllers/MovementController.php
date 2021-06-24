@@ -54,7 +54,7 @@ class MovementController extends Controller
             UserMovementStoreRequest::messages()
         );
 
-        $request = $this->userMovementService->store($request->all());
+        $request = $this->userMovementService->createUserMovement($request->all());
 
         return $this->responseAdapter($request);
     }

@@ -10,7 +10,7 @@ use App\Organize\MovementCategory\Services\Contracts\MovementCategoryServiceInte
 use App\Organize\UserMovement\Services\UserMovementService;
 use App\Organize\UserMovement\Services\Contracts\UserMovementServiceInterface;
 
-class ServiceProvider extends BaseServiceProvider
+class ServiceServiceProvider extends BaseServiceProvider
 {
     /**
      * @return void

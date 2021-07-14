@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo "Iniciando instalação"
+echo "Starting installation"
 echo ""
 
 echo ""
@@ -9,7 +9,7 @@ echo "=================================================> 0%"
 echo ""
 
 echo ""
-echo "1) Subindo os containers"
+echo "1) Up the containers"
 echo ""
 
 docker-compose up -d
@@ -19,7 +19,7 @@ echo "=================================================> 12%"
 echo ""
 
 echo ""
-echo "2) Criando arquivo .env"
+echo "2) Creating file .env"
 echo ""
 
 docker exec organize-api cp .env.example .env
@@ -29,7 +29,7 @@ echo "=================================================> 24%"
 echo ""
 
 echo ""
-echo "3) Instalando dependências via composer"
+echo "3) Installing dependencies by composer"
 echo ""
 
 docker exec organize-api composer install --ignore-platform-req=php
@@ -39,7 +39,7 @@ echo "=================================================> 36%"
 echo ""
 
 echo ""
-echo "4) Executando migrations"
+echo "4) Running migrations"
 echo ""
 
 docker exec organize-api php artisan migrate
@@ -49,7 +49,7 @@ echo "=================================================> 48%"
 echo ""
 
 echo ""
-echo "5) Executando seeders"
+echo "5) Running seeders"
 echo ""
 
 docker exec organize-api php artisan db:seed
@@ -59,7 +59,7 @@ echo "=================================================> 60%"
 echo ""
 
 echo ""
-echo "6) Gerando chave secreta JWT"
+echo "6) Generating secret key JWT"
 echo ""
 
 docker exec organize-api php artisan jwt:secret
@@ -69,7 +69,7 @@ echo "=================================================> 72%"
 echo ""
 
 echo ""
-echo "7) Rodando testes de integração"
+echo "7) Running integration tests"
 echo ""
 
 docker exec organize-api vendor/bin/phpunit tests/Integration/ --testdox
@@ -79,7 +79,7 @@ echo "=================================================> 84%"
 echo ""
 
 echo ""
-echo "8) Rodando testes de unidade"
+echo "8) Running unit tests"
 echo ""
 
 docker exec organize-api vendor/bin/phpunit tests/Unit/ --testdox
@@ -89,5 +89,5 @@ echo "=================================================> 100%"
 echo ""
 
 echo ""
-echo "Instalação concluída"
+echo "Installation completed"
 echo ""

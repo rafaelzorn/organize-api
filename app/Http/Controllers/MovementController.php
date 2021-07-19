@@ -36,9 +36,9 @@ class MovementController extends Controller
     {
         $this->validate($request, UserMovementIndexRequest::rules());
 
-        $request = $this->userMovementService->getAllUserMovements($request->all());
+        $response = $this->userMovementService->getAllUserMovements($request->all());
 
-        return $this->responseAdapter($request);
+        return $this->responseAdapter($response);
     }
 
     /**
@@ -54,9 +54,9 @@ class MovementController extends Controller
             UserMovementStoreRequest::messages()
         );
 
-        $request = $this->userMovementService->createUserMovement($request->all());
+        $response = $this->userMovementService->createUserMovement($request->all());
 
-        return $this->responseAdapter($request);
+        return $this->responseAdapter($response);
     }
 
     /**
@@ -66,9 +66,9 @@ class MovementController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $request = $this->userMovementService->getUserMovement($id);
+        $response = $this->userMovementService->getUserMovement($id);
 
-        return $this->responseAdapter($request);
+        return $this->responseAdapter($response);
     }
 
     /**
@@ -85,9 +85,9 @@ class MovementController extends Controller
             UserMovementUpdateRequest::messages()
         );
 
-        $request = $this->userMovementService->updateUserMovement($id, $request->all());
+        $response = $this->userMovementService->updateUserMovement($id, $request->all());
 
-        return $this->responseAdapter($request);
+        return $this->responseAdapter($response);
     }
 
     /**
@@ -97,8 +97,8 @@ class MovementController extends Controller
      */
     public function destroy($id): JsonResponse
     {
-        $request = $this->userMovementService->deleteUserMovement($id);
+        $response = $this->userMovementService->deleteUserMovement($id);
 
-        return $this->responseAdapter($request);
+        return $this->responseAdapter($response);
     }
 }

@@ -28,8 +28,8 @@ class MovementCategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $request = $this->movementCategoryService->getAllMovementCategories();
+        $response = $this->movementCategoryService->getAllMovementCategories();
 
-        return $this->responseAdapter($request);
+        return $this->responseAdapter($response);
     }
 }

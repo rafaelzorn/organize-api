@@ -30,9 +30,7 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
     {
         $query = $this->model->query();
 
-        $query = $this->filterByUserId($query, $filters);
-        $query = $this->filterByMovementCategoryId($query, $filters);
-        $query = $this->filterByMovementDatePeriod($query, $filters);
+        $query = $this->filter($query, $filters);
 
         return $query->get();
     }
@@ -91,44 +89,20 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
      *
      * @return Builder
      */
-    private function filterByUserId(Builder $query, array $filters): Builder
+    private function filter(Builder $query, array $filters): Builder
     {
-        $userId = ArrayHelper::checkValueArray($filters, 'user_id');
+        $userId                = ArrayHelper::checkValueArray($filters, 'user_id');
+        $movementCategoryId    = ArrayHelper::checkValueArray($filters, 'movement_category_id');
+        $movementDateStartDate = ArrayHelper::checkValueArray($filters, 'movement_date_start_date');
+        $movementDateFinalDate = ArrayHelper::checkValueArray($filters, 'movement_date_final_date');
 
         if ($userId) {
             $query = $query->whereByUserId($userId);
         }
 
-        return $query;
-    }
-
-    /**
-     * @param Builder $query
-     * @param array $filters
-     *
-     * @return Builder
-     */
-    private function filterByMovementCategoryId(Builder $query, array $filters): Builder
-    {
-        $movementCategoryId = ArrayHelper::checkValueArray($filters, 'movement_category_id');
-
         if ($movementCategoryId) {
             $query = $query->whereByMovementCategoryId($movementCategoryId);
         }
-
-        return $query;
-    }
-
-    /**
-     * @param Builder $query
-     * @param array $filters
-     *
-     * @return Builder
-     */
-    private function filterByMovementDatePeriod($query, $filters): Builder
-    {
-        $movementDateStartDate = ArrayHelper::checkValueArray($filters, 'movement_date_start_date');
-        $movementDateFinalDate = ArrayHelper::checkValueArray($filters, 'movement_date_final_date');
 
         if ($movementDateStartDate && $movementDateFinalDate) {
             $query = $query->whereBetweenMovementDatePeriod($movementDateStartDate, $movementDateFinalDate);

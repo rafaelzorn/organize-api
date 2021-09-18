@@ -30,18 +30,18 @@ class MovementCategorySeeder extends Seeder
     public function run(): void
     {
         $movementCategories = [
-            1  => 'Casa',
-            2  => 'Educação',
-            3  => 'Eletrônicos',
-            4  => 'Lazer',
-            5  => 'Outros',
-            6  => 'Restaurante',
-            7  => 'Saúde',
-            8  => 'Serviços',
-            9  => 'Supermercado',
-            10 => 'Transporte',
-            11 => 'Vestuário',
-            12 => 'Viagem',
+            1  => trans('movement_categories.home'),
+            2  => trans('movement_categories.education'),
+            3  => trans('movement_categories.electronics'),
+            4  => trans('movement_categories.leisure'),
+            5  => trans('movement_categories.others'),
+            6  => trans('movement_categories.restaurant'),
+            7  => trans('movement_categories.health'),
+            8  => trans('movement_categories.services'),
+            9  => trans('movement_categories.supermarket'),
+            10 => trans('movement_categories.transport'),
+            11 => trans('movement_categories.clothing'),
+            12 => trans('movement_categories.travel'),
         ];
 
         foreach ($movementCategories as $id => $movementCategory) {

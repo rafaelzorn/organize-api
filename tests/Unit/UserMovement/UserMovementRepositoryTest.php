@@ -3,9 +3,9 @@
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Illuminate\Support\Arr;
 use App\Organize\UserMovement\Models\UserMovement;
-use App\Organize\UserMovement\Repositories\UserMovementRepository;
 use App\Organize\User\Models\User;
 use App\Organize\MovementCategory\Models\MovementCategory;
+use App\Organize\UserMovement\Repositories\Contracts\UserMovementRepositoryInterface;
 
 class UserMovementRepositoryTest extends TestCase
 {
@@ -23,7 +23,7 @@ class UserMovementRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->userMovementRepository = new UserMovementRepository(new UserMovement);
+        $this->userMovementRepository = $this->app->make(UserMovementRepositoryInterface::class);
     }
 
     /**

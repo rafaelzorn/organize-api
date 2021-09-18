@@ -3,7 +3,7 @@
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Faker\Factory;
 use App\Organize\MovementCategory\Models\MovementCategory;
-use App\Organize\MovementCategory\Repositories\MovementCategoryRepository;
+use App\Organize\MovementCategory\Repositories\Contracts\MovementCategoryRepositoryInterface;
 
 class MovementCategoryRepositoryTest extends TestCase
 {
@@ -21,7 +21,7 @@ class MovementCategoryRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->movementCategoryRepository = new MovementCategoryRepository(new MovementCategory);
+        $this->movementCategoryRepository = $this->app->make(MovementCategoryRepositoryInterface::class);
     }
 
     /**

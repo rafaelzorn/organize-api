@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
 use Faker\Factory;
 use App\Organize\User\Models\User;
-use App\Organize\User\Repositories\UserRepository;
+use App\Organize\User\Repositories\Contracts\UserRepositoryInterface;
 
 class UserRepositoryTest extends TestCase
 {
@@ -23,7 +23,7 @@ class UserRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->userRepository = new UserRepository(new User);
+        $this->userRepository = $this->app->make(UserRepositoryInterface::class);
     }
 
     /**

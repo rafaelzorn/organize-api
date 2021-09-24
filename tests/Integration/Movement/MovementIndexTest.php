@@ -5,6 +5,7 @@ use App\Constants\HttpStatusConstant;
 use App\Organize\UserMovement\Models\UserMovement;
 use App\Organize\User\Models\User;
 use App\Organize\MovementCategory\Models\MovementCategory;
+use App\Organize\UserMovement\Resources\UserMovementResource;
 
 class MovementIndexTest extends TestCase
 {
@@ -32,6 +33,8 @@ class MovementIndexTest extends TestCase
                     ->forMovementCategory()
                     ->count(3)
                     ->create();
+
+        $data = UserMovementResource::collection($data);
 
         UserMovement::factory()
             ->userId($otherUser->id)
@@ -93,6 +96,8 @@ class MovementIndexTest extends TestCase
                     ->count(3)
                     ->create();
 
+        $data = UserMovementResource::collection($data);
+
         UserMovement::factory()
             ->userId($user->id)
             ->movementCategoryId($otherCategory->id)
@@ -143,6 +148,7 @@ class MovementIndexTest extends TestCase
                         ->create();
 
         $data = $period->merge($otherPeriod);
+        $data = UserMovementResource::collection($data);
 
         UserMovement::factory()
                 ->movementDate('2021-06-22')

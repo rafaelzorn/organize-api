@@ -57,7 +57,16 @@ class UserMovementRepositoryTest extends TestCase
         $this->assertCount(3, $userMovements);
 
         foreach ($userMovements as $key => $userMovement) {
-            $this->assertEquals($data[$key]->toArray(), $userMovement->toArray());
+            $expected = $data[$key];
+
+            $this->assertEquals(
+                $expected->movementCategory->toArray(),
+                $userMovement->movementCategory->toArray()
+            );
+
+            unset($userMovement['movement_category']);
+
+            $this->assertEquals($expected->toArray(), $userMovement->toArray());
         }
     }
 
@@ -92,7 +101,16 @@ class UserMovementRepositoryTest extends TestCase
         $this->assertCount(3, $userMovements);
 
         foreach ($userMovements as $key => $userMovement) {
-            $this->assertEquals($data[$key]->toArray(), $userMovement->toArray());
+            $expected = $data[$key];
+
+            $this->assertEquals(
+                $expected->movementCategory->toArray(),
+                $userMovement->movementCategory->toArray()
+            );
+
+            unset($userMovement['movement_category']);
+
+            $this->assertEquals($expected->toArray(), $userMovement->toArray());
         }
     }
 
@@ -139,7 +157,16 @@ class UserMovementRepositoryTest extends TestCase
         $this->assertCount(4, $userMovements);
 
         foreach ($userMovements as $key => $userMovement) {
-            $this->assertEquals($data[$key]->toArray(), $userMovement->toArray());
+            $expected = $data[$key];
+
+            $this->assertEquals(
+                $expected->movementCategory->toArray(),
+                $userMovement->movementCategory->toArray()
+            );
+
+            unset($userMovement['movement_category']);
+
+            $this->assertEquals($expected->toArray(), $userMovement->toArray());
         }
     }
 
@@ -164,7 +191,16 @@ class UserMovementRepositoryTest extends TestCase
         $this->assertCount(4, $userMovements);
 
         foreach ($userMovements as $key => $userMovement) {
-            $this->assertEquals($data[$key]->toArray(), $userMovement->toArray());
+            $expected = $data[$key];
+
+            $this->assertEquals(
+                $expected->movementCategory->toArray(),
+                $userMovement->movementCategory->toArray()
+            );
+
+            unset($userMovement['movement_category']);
+
+            $this->assertEquals($expected->toArray(), $userMovement->toArray());
         }
     }
 
@@ -177,6 +213,7 @@ class UserMovementRepositoryTest extends TestCase
     {
         // Arrange
         $data = UserMovementHelper::movementFaker(true);
+        $data = $data->getAttributes();
 
         // Act
         $userMovement = $this->userMovementRepository->create($data);
@@ -246,6 +283,7 @@ class UserMovementRepositoryTest extends TestCase
         // Arrange
         $user         = User::factory()->create();
         $dataToUpdate = UserMovementHelper::movementFaker();
+        $dataToUpdate = $dataToUpdate->getAttributes();
 
         $data = UserMovement::factory()
                     ->userId($user->id)

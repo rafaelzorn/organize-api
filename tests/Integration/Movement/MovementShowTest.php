@@ -4,6 +4,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use App\Organize\UserMovement\Models\UserMovement;
 use App\Constants\HttpStatusConstant;
 use App\Organize\User\Models\User;
+use App\Organize\UserMovement\Resources\UserMovementResource;
 
 class MovementShowTest extends TestCase
 {
@@ -29,6 +30,8 @@ class MovementShowTest extends TestCase
                     ->userId($user->id)
                     ->forMovementCategory()
                     ->create();
+
+        $data = new UserMovementResource($data);
 
         // Act
         $this->json('GET', self::URL_SHOW . $data->id, [], ['HTTP_Authorization' => 'Bearer ' . $token]);

@@ -38,7 +38,6 @@ class MovementDeleteTest extends TestCase
         $this->seeStatusCode(HttpStatusConstant::OK);
         $this->seeJsonEquals([
             'code' => HttpStatusConstant::OK,
-            'data' => true,
         ]);
     }
 

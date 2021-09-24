@@ -4,6 +4,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use App\Constants\HttpStatusConstant;
 use App\Organize\UserMovement\Models\UserMovement;
 use App\Organize\User\Models\User;
+use App\Organize\UserMovement\Resources\UserMovementResource;
 
 class MovementUpdateTest extends TestCase
 {
@@ -33,9 +34,12 @@ class MovementUpdateTest extends TestCase
         $dataToUpdate = UserMovementHelper::movementFaker();
 
         // Act
-        $this->json('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), [
+            'HTTP_Authorization' => 'Bearer ' . $token
+        ]);
 
-        $dataToUpdate['id'] = $data->id;
+        $dataToUpdate->id = $data->id;
+        $dataToUpdate     = new UserMovementResource($dataToUpdate);
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::OK);
@@ -62,7 +66,7 @@ class MovementUpdateTest extends TestCase
         $dataToUpdate = UserMovementHelper::movementFaker();
 
         // Act
-        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, [], [], [
+        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $invalidToken,
         ]);
 
@@ -94,7 +98,9 @@ class MovementUpdateTest extends TestCase
         $dataToUpdate = UserMovementHelper::movementFaker();
 
         // Act
-        $this->json('PUT', self::URL_UPDATE . $invalidIdMovement, $dataToUpdate, ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('PUT', self::URL_UPDATE . $invalidIdMovement, $dataToUpdate->getAttributes(), [
+            'HTTP_Authorization' => 'Bearer ' . $token
+        ]);
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::BAD_REQUEST);
@@ -126,7 +132,7 @@ class MovementUpdateTest extends TestCase
         $dataToUpdate = UserMovementHelper::movementFaker();
 
         // Act
-        $this->json('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), ['HTTP_Authorization' => 'Bearer ' . $token]);
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::BAD_REQUEST);
@@ -156,11 +162,11 @@ class MovementUpdateTest extends TestCase
                     ->forMovementCategory()
                     ->create();
 
-        $dataToUpdate                         = UserMovementHelper::movementFaker();
-        $dataToUpdate['movement_category_id'] = $invalidMovementCategory;
+        $dataToUpdate                       = UserMovementHelper::movementFaker();
+        $dataToUpdate->movement_category_id = $invalidMovementCategory;
 
         // Act
-        $this->json('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), ['HTTP_Authorization' => 'Bearer ' . $token]);
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::BAD_REQUEST);
@@ -226,11 +232,11 @@ class MovementUpdateTest extends TestCase
                     ->forMovementCategory()
                     ->create();
 
-        $dataToUpdate                         = UserMovementHelper::movementFaker();
-        $dataToUpdate['movement_category_id'] = 'invalid category id';
-        $dataToUpdate['description']          = rand(1, 200);
-        $dataToUpdate['value']                = rand(1, 200);
-        $dataToUpdate['movement_type']        = rand(1, 200);
+        $dataToUpdate                       = UserMovementHelper::movementFaker();
+        $dataToUpdate->movement_category_id = 'invalid category id';
+        $dataToUpdate->description          = rand(1, 200);
+        $dataToUpdate->value                = rand(1, 200);
+        $dataToUpdate->movement_type        = rand(1, 200);
 
         $validations = [
             'movement_category_id' => trans('validation.integer'),
@@ -240,7 +246,7 @@ class MovementUpdateTest extends TestCase
         ];
 
         // Act
-        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, [], [], [
+        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 
@@ -268,15 +274,15 @@ class MovementUpdateTest extends TestCase
                     ->forMovementCategory()
                     ->create();
 
-        $dataToUpdate                  = UserMovementHelper::movementFaker();
-        $dataToUpdate['movement_date'] = date('Y-m-d H:i:s');
+        $dataToUpdate                = UserMovementHelper::movementFaker();
+        $dataToUpdate->movement_date = date('Y-m-d H:i:s');
 
         $validations = [
             'movement_date' => trans('validation.date_format', ['format' => 'Y-m-d']),
         ];
 
         // Act
-        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, [], [], [
+        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 
@@ -304,16 +310,16 @@ class MovementUpdateTest extends TestCase
                     ->forMovementCategory()
                     ->create();
 
-        $dataToUpdate          = UserMovementHelper::movementFaker();
-        $invalidValue          = '0100.00';
-        $dataToUpdate['value'] = $invalidValue;
+        $dataToUpdate        = UserMovementHelper::movementFaker();
+        $invalidValue        = '0100.00';
+        $dataToUpdate->value = $invalidValue;
 
         $validations = [
             'value' => trans('validation.invalid_value_format'),
         ];
 
         // Act
-        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, [], [], [
+        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 
@@ -341,16 +347,16 @@ class MovementUpdateTest extends TestCase
                     ->forMovementCategory()
                     ->create();
 
-        $dataToUpdate          = UserMovementHelper::movementFaker();
-        $invalidValue          = '100000000.00';
-        $dataToUpdate['value'] = $invalidValue;
+        $dataToUpdate        = UserMovementHelper::movementFaker();
+        $invalidValue        = '100000000.00';
+        $dataToUpdate->value = $invalidValue;
 
         $validations = [
             'value' => trans('validation.invalid_value_between'),
         ];
 
         // Act
-        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate, [], [], [
+        $response = $this->call('PUT', self::URL_UPDATE . $data->id, $dataToUpdate->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 

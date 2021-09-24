@@ -2,6 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use App\Constants\HttpStatusConstant;
+use App\Organize\UserMovement\Resources\UserMovementResource;
 
 class MovementStoreTest extends TestCase
 {
@@ -24,12 +25,13 @@ class MovementStoreTest extends TestCase
         $data             = UserMovementHelper::movementFaker();
 
         // Act
-        $this->json('POST', self::URL_STORE, $data, ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $this->json('POST', self::URL_STORE, $data->getAttributes(), ['HTTP_Authorization' => 'Bearer ' . $token]);
 
         // Assert
         $this->seeStatusCode(HttpStatusConstant::OK);
 
-        $data['id'] = 1;
+        $data->id = 1;
+        $data     = new UserMovementResource($data);
 
         $this->seeJsonEquals([
             'code' => HttpStatusConstant::OK,
@@ -49,7 +51,7 @@ class MovementStoreTest extends TestCase
         $invalidToken = 'invalid.token';
 
         // Act
-        $response = $this->call('POST', self::URL_STORE, $data, [], [], [
+        $response = $this->call('POST', self::URL_STORE, $data->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $invalidToken,
         ]);
 
@@ -68,14 +70,14 @@ class MovementStoreTest extends TestCase
         $this->refreshApplication();
 
         // Arrange
-        $authenticateUser             = $this->authenticateUser();
-        $token                        = $authenticateUser['token'];
-        $data                         = UserMovementHelper::movementFaker();
-        $invalidMovementCategory      = 2;
-        $data['movement_category_id'] = $invalidMovementCategory;
+        $authenticateUser           = $this->authenticateUser();
+        $token                      = $authenticateUser['token'];
+        $data                       = UserMovementHelper::movementFaker();
+        $invalidMovementCategory    = 2;
+        $data->movement_category_id = $invalidMovementCategory;
 
         // Act
-        $response = $this->json('POST', self::URL_STORE, $data, [
+        $response = $this->json('POST', self::URL_STORE, $data->getAttributes(), [
             'HTTP_Authorization' => 'Bearer ' . $token
         ]);
 
@@ -128,13 +130,13 @@ class MovementStoreTest extends TestCase
         $this->refreshApplication();
 
         // Arrange
-        $authenticateUser             = $this->authenticateUser();
-        $token                        = $authenticateUser['token'];
-        $data                         = UserMovementHelper::movementFaker();
-        $data['movement_category_id'] = 'invalid category id';
-        $data['description']          = rand(1, 200);
-        $data['value']                = rand(1, 200);
-        $data['movement_type']        = rand(1, 200);
+        $authenticateUser           = $this->authenticateUser();
+        $token                      = $authenticateUser['token'];
+        $data                       = UserMovementHelper::movementFaker();
+        $data->movement_category_id = 'invalid category id';
+        $data->description          = rand(1, 200);
+        $data->value                = rand(1, 200);
+        $data->movement_type        = rand(1, 200);
 
         $validations = [
             'movement_category_id' => trans('validation.integer'),
@@ -144,7 +146,7 @@ class MovementStoreTest extends TestCase
         ];
 
         // Act
-        $response = $this->call('POST', self::URL_STORE, $data, [], [], [
+        $response = $this->call('POST', self::URL_STORE, $data->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 
@@ -163,17 +165,17 @@ class MovementStoreTest extends TestCase
         $this->refreshApplication();
 
         // Arrange
-        $authenticateUser      = $this->authenticateUser();
-        $token                 = $authenticateUser['token'];
-        $data                  = UserMovementHelper::movementFaker();
-        $data['movement_date'] = date('Y-m-d H:i:s');
+        $authenticateUser     = $this->authenticateUser();
+        $token                = $authenticateUser['token'];
+        $data                 = UserMovementHelper::movementFaker();
+        $data->movement_date  = date('Y-m-d H:i:s');
 
         $validations = [
             'movement_date' => trans('validation.date_format', ['format' => 'Y-m-d']),
         ];
 
         // Act
-        $response = $this->call('POST', self::URL_STORE, $data, [], [], [
+        $response = $this->call('POST', self::URL_STORE, $data->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 
@@ -195,15 +197,15 @@ class MovementStoreTest extends TestCase
         $authenticateUser = $this->authenticateUser();
         $token            = $authenticateUser['token'];
         $data             = UserMovementHelper::movementFaker();
-        $invalidValue     = '0100.00';
-        $data['value']    = $invalidValue;
+        $invalidValue     = "0100.00";
+        $data->value      = $invalidValue;
 
         $validations = [
             'value' => trans('validation.invalid_value_format'),
         ];
 
         // Act
-        $response = $this->call('POST', self::URL_STORE, $data, [], [], [
+        $response = $this->call('POST', self::URL_STORE, $data->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 
@@ -226,14 +228,14 @@ class MovementStoreTest extends TestCase
         $token            = $authenticateUser['token'];
         $data             = UserMovementHelper::movementFaker();
         $invalidValue     = '100000000.00';
-        $data['value']    = $invalidValue;
+        $data->value      = $invalidValue;
 
         $validations = [
             'value' => trans('validation.invalid_value_between'),
         ];
 
         // Act
-        $response = $this->call('POST', self::URL_STORE, $data, [], [], [
+        $response = $this->call('POST', self::URL_STORE, $data->getAttributes(), [], [], [
             'HTTP_Authorization' => 'Bearer ' . $token,
         ]);
 

@@ -8,6 +8,7 @@ use App\Constants\HttpStatusConstant;
 use App\Organize\UserMovement\Services\Contracts\UserMovementServiceInterface;
 use App\Organize\UserMovement\Repositories\Contracts\UserMovementRepositoryInterface;
 use App\Organize\MovementCategory\Repositories\Contracts\MovementCategoryRepositoryInterface;
+use App\Organize\UserMovement\Resources\UserMovementResource;
 
 class UserMovementService implements UserMovementServiceInterface
 {
@@ -45,6 +46,7 @@ class UserMovementService implements UserMovementServiceInterface
         $filters = Arr::add($filters, 'user_id', auth()->user()->id);
 
         $data = $this->userMovementRepository->getAllMovements($filters);
+        $data = UserMovementResource::collection($data);
 
         return [
             'code' => HttpStatusConstant::OK,
@@ -66,6 +68,7 @@ class UserMovementService implements UserMovementServiceInterface
             $data = Arr::add($data, 'user_id', auth()->user()->id);
 
             $userMovement = $this->userMovementRepository->create($data);
+            $userMovement = new UserMovementResource($userMovement);
 
             return [
                 'code' => HttpStatusConstant::OK,
@@ -96,6 +99,8 @@ class UserMovementService implements UserMovementServiceInterface
             $userMovement = $this->userMovementRepository
                                  ->updateUserMovement($userId, $id, $data);
 
+            $userMovement = new UserMovementResource($userMovement);
+
             return [
                 'code' => HttpStatusConstant::OK,
                 'data' => $userMovement,
@@ -118,6 +123,7 @@ class UserMovementService implements UserMovementServiceInterface
         try {
             $userId = auth()->user()->id;
             $userMovement = $this->userMovementRepository->getUserMovement($userId, $id);
+            $userMovement = new UserMovementResource($userMovement);
 
             return [
                 'code' => HttpStatusConstant::OK,
@@ -144,7 +150,6 @@ class UserMovementService implements UserMovementServiceInterface
 
             return [
                 'code' => HttpStatusConstant::OK,
-                'data' => $userMovement,
             ];
         } catch (Exception $e) {
             return [

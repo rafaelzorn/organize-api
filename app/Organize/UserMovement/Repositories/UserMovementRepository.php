@@ -28,7 +28,7 @@ class UserMovementRepository extends BaseRepository implements UserMovementRepos
      */
     public function getAllMovements(array $filters = []): Collection
     {
-        $query = $this->model->query();
+        $query = $this->model->query()->with('movementCategory');
 
         $query = $this->filter($query, $filters);
 
